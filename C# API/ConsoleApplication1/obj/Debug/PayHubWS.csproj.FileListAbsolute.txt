@@ -1,0 +1,16 @@
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.csprojResolveAssemblyReference.cache
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\user\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin\Debug\PayHubWS.exe.config
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin\Debug\PayHubWS.exe
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin\Debug\PayHubWS.pdb
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.exe
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.pdb
+D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.csprojResolveAssemblyReference.cache
