@@ -30,6 +30,14 @@ public class TransactionManager extends WsConnections{
     private String _url;
     private String _oauthToken;
     
+    /**
+     * Create a new Transaction Manager for access to the API and perform queries.
+     *
+     * @param String url: the url that allows you to retrieve information from the API.
+     * @param String token: the token that allows you to access the API.
+     * @param Merchant merchant: your Merchant information.
+     *  
+     */
     public TransactionManager(String url,String token,Merchant m){
     	super(token);    	
         this._url = url;
@@ -37,7 +45,13 @@ public class TransactionManager extends WsConnections{
         this._merchant = m;
     }
 
-
+    /**
+     * Perform a new Sale.
+     *
+     * @param sale object.
+     * @return a SaleResponseInformation object. 
+     * @see {@link com.payhub.ws.api.SaleResponseInformation}; 
+     */
     public SaleResponseInformation doSale(Sale sale) throws IOException 
     { 
         sale.setMerchant(this._merchant);
@@ -49,6 +63,13 @@ public class TransactionManager extends WsConnections{
         SaleResponseInformation response = sale.doSale(json, request);
         return response;
     }
+    /**
+     * Perform a new query that retrieves you the Sale Information for a particular Sale.
+     *
+     * @param String saleId: the ID of a particular Sale transaction.
+     * @return a SaleResponseInformation object. 
+     * @see {@link com.payhub.ws.api.SaleResponseInformation}; 
+     */
     public SaleResponseInformation getSaleInformation(String saleId) throws IOException
     {
         SaleResponseInformation responseObject = new SaleResponseInformation();
@@ -61,7 +82,13 @@ public class TransactionManager extends WsConnections{
         responseObject.setRowData(result);
         return responseObject;
     }
-
+    /**
+     * Perform a new Authorization.
+     *
+     * @param authorization object.
+     * @return a AuthorizationResponseInformation object. 
+     * @see {@link com.payhub.ws.api.AuthorizationResponseInformation}; 
+     */
     public AuthorizationResponseInformation doAuthonly(AuthOnly authorization) throws IOException
     {
     	authorization.setMerchant(this._merchant);
@@ -73,6 +100,13 @@ public class TransactionManager extends WsConnections{
         AuthorizationResponseInformation response = authorization.authOnly(json, request);
         return response;
     }
+    /**
+     * Perform a new query that retrieves you the Authorization Information for a particular Authorization.
+     *
+     * @param String authorizationId: the ID of a particular AuthorizationOnly transaction.
+     * @return a AuthorizationResponseInformation object. 
+     * @see {@link com.payhub.ws.api.AuthorizationResponseInformation}; 
+     */
     public AuthorizationResponseInformation getAuthorizationInformation(String authorizationId) throws IOException
     {
     	AuthorizationResponseInformation responseObject = new AuthorizationResponseInformation();
@@ -85,6 +119,13 @@ public class TransactionManager extends WsConnections{
         responseObject.setRowData(result);
         return responseObject;        
     }
+    /**
+     * Perform a new CaptureResponse.
+     *
+     * @param capture object.
+     * @return a LastCaptureResponseInformation object. 
+     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     */
     public LastCaptureResponseInformation doCapture(Capture capture) throws IOException
     {
         capture.setMerchant(this._merchant);
@@ -96,6 +137,13 @@ public class TransactionManager extends WsConnections{
         LastCaptureResponseInformation response = capture.captureData(json, request);
         return response;
     }
+    /**
+     * Perform a new query that retrieves you the Capture Information for a particular Capture.
+     *
+     * @param String captureId: the ID of a particular Capture.
+     * @return a LastCaptureResponseInformation object. 
+     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     */
     public LastCaptureResponseInformation getCaptureInformation(String captureId) throws IOException
     {
         
@@ -110,7 +158,13 @@ public class TransactionManager extends WsConnections{
         return responseObject;   
         
     }
-    
+    /**
+     * Perform a new Void Transaction.
+     *
+     * @param VoidTransaction object.
+     * @return a LastVoidResponseInformation object.
+     * @see {@link com.payhub.ws.api.LastVoidResponseInformation};  
+     */
     public LastVoidResponseInformation doVoid(VoidTransaction voidData) throws IOException
     {
     	voidData.setMerchant(this._merchant);
@@ -121,6 +175,13 @@ public class TransactionManager extends WsConnections{
         LastVoidResponseInformation response = voidData.performVoidTransaction(json, request);
         return response;
     }
+    /**
+     * Perform a new query that retrieves you the Void Information for a particular Void Transaction.
+     *
+     * @param String voidId: the ID of a particular Void Transaction.
+     * @return a LastVoidResponseInformation object. 
+     * @see {@link com.payhub.ws.api.LastVoidResponseInformation}; 
+     */
     public LastVoidResponseInformation getVoidInformation(String voidId) throws IOException
     {
         LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
@@ -133,6 +194,13 @@ public class TransactionManager extends WsConnections{
         responseObject.setRowData(result);
         return responseObject;    
     }
+    /**
+     * Perform a new Verify.
+     *
+     * @param Verify object.
+     * @return a VerfyResponseInformation object.
+     * @see {@link com.payhub.ws.api.VerfyResponseInformation}; 
+     */
     public VerfyResponseInformation doVerify(Verify verifyData) throws IOException {
     	verifyData.setMerchant(this._merchant);
     	verifyData.setUrl(this._url);
@@ -142,6 +210,13 @@ public class TransactionManager extends WsConnections{
         VerfyResponseInformation response = verifyData.performVerifyTransaction(json, request);
         return response;
     }
+    /**
+     * Perform a new query that retrieves you the Verify Information for a particular Verify Transaction.
+     *
+     * @param String verifyId: the ID of a particular Verify Transaction.
+     * @return a VerfyResponseInformation object. 
+     * @see {@link com.payhub.ws.api.VerfyResponseInformation};
+     */
     public VerfyResponseInformation getVerifyInformation(String verifyId) throws JsonProcessingException, IOException, Throwable
     {
     	VerfyResponseInformation responseObject = new VerfyResponseInformation();
@@ -154,6 +229,13 @@ public class TransactionManager extends WsConnections{
         responseObject.setRowData(result);
         return responseObject;        
     }
+    /**
+     * Perform a new Refund.
+     *
+     * @param Refund object.
+     * @return a RefundInformation object. 
+     * @see {@link com.payhub.ws.api.RefundInformation};
+     */
     public RefundInformation doRefund(Refund refundData) throws IOException
     {
 	   refundData.setMerchant(this._merchant);
@@ -164,6 +246,13 @@ public class TransactionManager extends WsConnections{
   		RefundInformation response = refundData.PerformRefund(json, request);
   		return response;
     }
+    /**
+     * Perform a new query that retrieves you the Refund Information for a particular Refund Operation.
+     *
+     * @param String refundId: the ID of a particular Refund Transaction.
+     * @return a RefundInformation object. 
+     * @see {@link com.payhub.ws.api.RefundInformation};
+     */
     public RefundInformation getRefundInformation(String refundId) throws JsonParseException, JsonMappingException, IOException
     {    	
     	RefundInformation responseObject = new RefundInformation();
@@ -176,6 +265,13 @@ public class TransactionManager extends WsConnections{
         responseObject.setRowData(result);
         return responseObject;         
     }
+    /**
+     * Perform a new RecurringBilling.
+     *
+     * @param RecurringBill object.
+     * @return a RecurringBillingInformation object. 
+     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     */
     public RecurringBillingInformation doRecurringBill(RecurringBill recurringBill) throws IOException
     {
 	   	recurringBill.setMerchant(this._merchant);
@@ -186,6 +282,13 @@ public class TransactionManager extends WsConnections{
    		RecurringBillingInformation response = recurringBill.PerformRecurringBill(json, request);
    		return response;
     }
+    /**
+     * Perform a new query that retrieves you the Recurring Bill Information for a particular Recurring Bill transaction.
+     *
+     * @param String recurringBillId: the ID of a particular Recurring Bill Transaction.
+     * @return a RecurringBillingInformation object. 
+     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     */
     public RecurringBillingInformation getRecurringBillInformation(String recurringBillId) throws IOException
     {
     	RecurringBillingInformation responseObject = new RecurringBillingInformation();
