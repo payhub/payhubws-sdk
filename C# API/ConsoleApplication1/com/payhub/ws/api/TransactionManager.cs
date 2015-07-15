@@ -14,7 +14,19 @@ using PayHubWS.com.payhub.ws.util;
 namespace PayHubWS.payhub.ws.api
 {
     ///  @author Agustin Breit 
-    /// 
+    /// <summary> 
+    /// Create a new Transaction Manager for access to the API and perform queries.
+    ///
+    /// <param name="url"> 
+    /// String url: the url that allows you to retrieve information from the API.
+    /// </param>
+    /// <param name="token"> 
+    /// String token: the token that allows you to access the API.
+    /// </param>
+    /// <param name="merchant"> 
+    /// Merchant merchant: your Merchant information.
+    /// </param>  
+    /// </summary> 
     public class TransactionManager : WsConnections
     {
         private Merchant _merchant;
@@ -51,7 +63,17 @@ namespace PayHubWS.payhub.ws.api
             this._merchant = m;
         }
 
-
+        /// <summary> 
+        /// Perform a new Sale.
+        ///
+        /// <param name="sale"> 
+        /// Sale Object
+        /// </param>
+        /// <returns>
+        /// SaleResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.SaleResponseInformation"/>
+        /// </summary> 
         public SaleResponseInformation doSale(Sale sale)
         {
             sale.Merchant = _merchant;
@@ -62,6 +84,17 @@ namespace PayHubWS.payhub.ws.api
 
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Sale Information for a particular Sale Transaction.
+        ///
+        /// <param name="saleId"> 
+        /// the ID of a particular Sale Transaction.
+        /// </param>
+        /// <returns>
+        /// SaleResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.SaleResponseInformation"/>
+        /// </summary> 
         public SaleResponseInformation getSaleInformation(string saleId)
         {
             SaleResponseInformation responseObject = new SaleResponseInformation();
@@ -72,7 +105,17 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
-
+        /// <summary> 
+        /// Perform a new AuthOnly.
+        ///
+        /// <param name="authorization"> 
+        /// AuthOnly Object
+        /// </param>
+        /// <returns>
+        /// AuthorizationResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.AuthorizationResponseInformation"/>
+        /// </summary> 
         public AuthorizationResponseInformation doAuthonly(AuthOnly authorization)
         {
             authorization.Merchant = _merchant;
@@ -83,6 +126,17 @@ namespace PayHubWS.payhub.ws.api
 
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the AuthorizationOnly Information for a particular AuthorizationOnly Transaction.
+        ///
+        /// <param name="authorizationId"> 
+        /// the ID of a particular AuthorizationOnly Transaction.
+        /// </param>
+        /// <returns>
+        /// AuthorizationResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.AuthorizationResponseInformation"/>
+        /// </summary> 
         public AuthorizationResponseInformation getAuthorizationInformation(string authorizationId)
         {
             AuthorizationResponseInformation responseObject = new AuthorizationResponseInformation();
@@ -93,6 +147,17 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+        /// <summary> 
+        /// Perform a new Capture.
+        ///
+        /// <param name="capture"> 
+        /// Capture Object
+        /// </param>
+        /// <returns>
+        /// LastCaptureResponseInfromation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastCaptureResponseInfromation"/>
+        /// </summary> 
         public LastCaptureResponseInfromation doCapture(Capture capture)
         {
             capture.Merchant = _merchant;
@@ -103,6 +168,17 @@ namespace PayHubWS.payhub.ws.api
 
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Capture Information for a particular Capture Transaction.
+        ///
+        /// <param name="captureId"> 
+        /// the ID of a particular Capture Transaction.
+        /// </param>
+        /// <returns>
+        /// LastCaptureResponseInfromation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastCaptureResponseInfromation"/>
+        /// </summary> 
         public LastCaptureResponseInfromation getCaptureInformation(string captureId)
         {
             LastCaptureResponseInfromation responseObject = new LastCaptureResponseInfromation();
@@ -113,6 +189,17 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+        /// <summary> 
+        /// Perform a new VoidTransaction.
+        ///
+        /// <param name="voidData"> 
+        /// VoidTransaction Object
+        /// </param>
+        /// <returns>
+        /// LastVoidResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastVoidResponseInformation"/>
+        /// </summary> 
         public LastVoidResponseInformation doVoid(VoidTransaction voidData)
         {
             voidData.Merchant = _merchant;
@@ -123,6 +210,17 @@ namespace PayHubWS.payhub.ws.api
 
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Void Information for a particular Void Transaction.
+        ///
+        /// <param name="voidId"> 
+        /// the ID of a particular Void Transaction.
+        /// </param>
+        /// <returns>
+        /// LastVoidResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastVoidResponseInformation"/>
+        /// </summary> 
         public LastVoidResponseInformation getCaptureInformation(string voidId)
         {
             LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
@@ -133,6 +231,16 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+        /// <summary> 
+        /// Perform a new Verify.
+        /// <param name="verifyData"> 
+        /// Verify Object
+        /// </param>
+        /// <returns>
+        /// VerifyResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.VerifyResponseInformation"/>
+        /// </summary> 
         public VerifyResponseInformation doVerify(Verify verifyData) {
             verifyData.Merchant = _merchant;
             verifyData._url = _url;
@@ -141,6 +249,17 @@ namespace PayHubWS.payhub.ws.api
             VerifyResponseInformation response = verifyData.performVoidTransaction(json, request);
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Verify Information for a particular Verify Transaction.
+        ///
+        /// <param name="verifyId"> 
+        /// the ID of a particular Verify Transaction.
+        /// </param>
+        /// <returns>
+        /// VerifyResponseInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.VerifyResponseInformation"/>
+        /// </summary> 
         public VerifyResponseInformation getVerifyInformation(string verifyId)
         {
             VerifyResponseInformation responseObject = new VerifyResponseInformation();
@@ -151,6 +270,17 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+        /// <summary> 
+        /// Perform a new Refund.
+        ///
+        /// <param name="refundData"> 
+        /// Refund Object
+        /// </param>
+        /// <returns>
+        /// RefundInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RefundInformation"/>
+        /// </summary> 
         public RefundInformation doRefund(Refund refundData)
         {
             refundData.Merchant = _merchant;
@@ -160,6 +290,17 @@ namespace PayHubWS.payhub.ws.api
             RefundInformation response = refundData.PerformRefund(json, request);
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Refund Information for a particular Refund Operation.
+        ///
+        /// <param name="refundId"> 
+        /// the ID of a particular Refund Transaction.
+        /// </param>
+        /// <returns>
+        /// RefundInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RecurringBillingInformation"/>
+        /// </summary> 
         public RefundInformation getRefundInformation(string refundId)
         {
             RefundInformation responseObject = new RefundInformation();
@@ -170,6 +311,17 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+        /// <summary> 
+        /// Perform a new RecurringBilling.
+        ///
+        /// <param name="recurringBill"> 
+        /// RecurringBill object.
+        /// </param>
+        /// <returns>
+        /// RecurringBillingInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RecurringBillingInformation"/>
+        /// </summary> 
         public RecurringBillInformation doRecurringBill(RecurringBill recurringBill)
         {
             recurringBill.Merchant = _merchant;
@@ -179,6 +331,17 @@ namespace PayHubWS.payhub.ws.api
             RecurringBillInformation response = recurringBill.PerformRecurringBill(json, request);
             return response;
         }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Recurring Bill Information for a particular Recurring Bill transaction.
+        ///
+        /// <param name="recurringBillId"> 
+        /// String recurringBillId: the ID of a particular Recurring Bill Transaction.
+        /// </param>
+        /// <returns>
+        /// a RecurringBillingInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RecurringBillingInformation"/>
+        /// </summary> 
         public RecurringBillInformation getRecurringBillInformation(string refundId)
         {
             RecurringBillInformation responseObject = new RecurringBillInformation();
