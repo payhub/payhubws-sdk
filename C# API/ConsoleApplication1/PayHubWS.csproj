@@ -67,6 +67,7 @@
     <Compile Include="com\payhub\ws\api\Errors.cs" />
     <Compile Include="com\payhub\ws\api\LastCaptureResponseInfromation.cs" />
     <Compile Include="com\payhub\ws\api\LastVoidResponseInformation.cs" />
+    <Compile Include="com\payhub\ws\api\OperationType.cs" />
     <Compile Include="com\payhub\ws\api\RecurringBillInformation.cs" />
     <Compile Include="com\payhub\ws\api\RefundInformation.cs" />
     <Compile Include="com\payhub\ws\api\VerifyResponseInformation.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples\AuthOnlyAndCaptureSample.cs" />
+    <Compile Include="Samples\MetadataSample.cs" />
     <Compile Include="Samples\RecurringBillingSample.cs" />
     <Compile Include="Samples\RefundSample.cs" />
     <Compile Include="Samples\SaleAndVoidSample.cs" />

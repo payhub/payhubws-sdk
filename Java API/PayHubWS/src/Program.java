@@ -35,16 +35,16 @@ public class Program {
 	 */
 	public static void main(String[] args) throws IOException, ParseException {
 		
-        SaleAndVoidSample saleAndVoidSample = new SaleAndVoidSample();
-        saleAndVoidSample.doSale();
+       // SaleAndVoidSample saleAndVoidSample = new SaleAndVoidSample();
+       // saleAndVoidSample.doSale();
         AuthOnlyAndCaptureSample authOnlyAndCaptureSample = new AuthOnlyAndCaptureSample();
         authOnlyAndCaptureSample.doAuthorization();        
-        Samples.RecurringBillingSample recurringBillingSample =  new RecurringBillingSample();
-        recurringBillingSample.doRecurringBilling();
-        RefundSample refundSample =  new RefundSample();
-        refundSample.doRefund();
-        VerifySample verifySample = new VerifySample();
-        verifySample.doVerify();
+      //  Samples.RecurringBillingSample recurringBillingSample =  new RecurringBillingSample();
+      //  recurringBillingSample.doRecurringBilling();
+      //  RefundSample refundSample =  new RefundSample();
+      //  refundSample.doRefund();
+      //  VerifySample verifySample = new VerifySample();
+      //  verifySample.doVerify();
 	}
 
 }

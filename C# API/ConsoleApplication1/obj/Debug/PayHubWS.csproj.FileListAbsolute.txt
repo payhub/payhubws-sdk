@@ -14,3 +14,10 @@ D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\bin
 D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.exe
 D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.pdb
 D:\Silice\PayHub\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1\obj\Debug\PayHubWS.csprojResolveAssemblyReference.cache
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\PayHubWS.exe.config
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\obj\Debug\PayHubWS.exe
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\obj\Debug\PayHubWS.pdb
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\PayHubWS.exe
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\PayHubWS.pdb
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml

@@ -10,7 +10,7 @@ namespace PayHubWS.com.payhub.ws.api
     ///  @author Agustin Breit 
     /// 
     [DataContract]
-    class Errors
+    public class Errors
     {
         [DataMember]
         private string status;

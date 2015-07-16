@@ -12,15 +12,15 @@ namespace PayHubWS.com.payhub.ws.api
     [DataContract]
     public class RefundInformation
     {
-        private Metadata metadata;
-        [DataMember(Name = "metadata")]
-        public Metadata Metadata
+        private Object metadata;
+        [DataMember(Name = "metaData")]
+        public Object Metadata
         {
-            get { return this.metadata; }
+            get { return this.metadata.ToString(); }
             set
             {
                 if (value != null)
-                    this.metadata = value;
+                    this.metadata = value.ToString();
             }
         }
         [DataMember]
@@ -37,16 +37,16 @@ namespace PayHubWS.com.payhub.ws.api
             }
         }
         [DataMember]
-        private string transaction_id;
+        public string transaction_id;
         [DataMember]
-        private RefundResponse lastRefundResponse;
+        public RefundResponse lastRefundResponse;
         [DataMember]
-        private string merchantOrganizationId;
+        public string merchantOrganizationId;
         [DataMember]
         public Object _links;
 
         [DataMember]
-        private List<Errors> errors;
+        public List<Errors> errors;
         public string rowData { get; set; }
     }
 }

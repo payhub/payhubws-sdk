@@ -22,18 +22,20 @@ namespace PayHubWS
     {
         static void Main(string[] args)
         {
+            MetadataSample metadata = new MetadataSample();
+            metadata.addMetadata();
 
-            SaleAndVoidSample sale = new SaleAndVoidSample();
-           // sale.doSale();
-            sale.getInformation();
-            AuthOnlyAndCaptureSample authOnly = new AuthOnlyAndCaptureSample();
-            authOnly.doAuthorization();
-            RecurringBillingSample recurringBilling = new RecurringBillingSample();
-            recurringBilling.doRecurringBilling();
-            RefundSample refundSample = new RefundSample();
-            refundSample.doRefund();
-            VerifySample verifySample = new VerifySample();
-            verifySample.doVerify();
+           // SaleAndVoidSample sale = new SaleAndVoidSample();
+           //// sale.doSale();
+           // sale.getInformation();
+           // AuthOnlyAndCaptureSample authOnly = new AuthOnlyAndCaptureSample();
+           // authOnly.doAuthorization();
+           // RecurringBillingSample recurringBilling = new RecurringBillingSample();
+           // recurringBilling.doRecurringBilling();
+           // RefundSample refundSample = new RefundSample();
+           // refundSample.doRefund();
+           // VerifySample verifySample = new VerifySample();
+           // verifySample.doVerify();
            
         }
     }

@@ -221,7 +221,7 @@ namespace PayHubWS.payhub.ws.api
         /// </returns>   
         /// <seealso cref="PayHubWS.com.payhub.ws.api.LastVoidResponseInformation"/>
         /// </summary> 
-        public LastVoidResponseInformation getCaptureInformation(string voidId)
+        public LastVoidResponseInformation getVoidInformation(string voidId)
         {
             LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
             var url = _url + VoidTransaction.VOID_ID_LINK + voidId;
@@ -352,6 +352,54 @@ namespace PayHubWS.payhub.ws.api
             responseObject.rowData = result;
             return responseObject;
         }
+
+        /// <summary> 
+        /// Add Metadata on one transaction.
+        ///
+        /// <param name="metadata"> 
+        /// String metadata: the metadata to add.
+        /// </param>
+        /// <param name="type"> 
+        ///  OperationType type: the specific type of operation.
+        /// </param>
+        /// <param name="operationId"> 
+        /// String operationId: the Id of the operation.
+        /// </param>
+        /// </summary> 
+        public void addMetaData(String metadata,OperationType type,String operationId){
+            string metadataUrl=null;
+            if(OperationType.Sale.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forSale/"+operationId;
+            }if(OperationType.AuthOnly.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forAuthOnly/"+operationId;
+            }if(OperationType.Capture.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forCapture/"+operationId;
+            }if(OperationType.Bill.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forBill/"+operationId;
+            }if(OperationType.CardData.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forCardData/"+operationId;
+            }if(OperationType.Customer.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forCustomer/"+operationId;
+            }if(OperationType.Merchant.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forMerchant/"+operationId;
+            }if(OperationType.RecurringBill.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forRecurringBill/"+operationId;
+            }if(OperationType.Schedule.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forSchedule/"+operationId;
+            }if(OperationType.Refund.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forRefund/"+operationId;
+            }if(OperationType.VoidTransaction.Equals(type)){
+        	    metadataUrl=this._url+"metadata/forVoid/"+operationId;
+            }
+            HttpWebRequest request = setHeadersPut(metadataUrl, this._oauthToken);
+            String result = doPut(request,metadata);//revisar el codigo del doPut porque con postman el json funciona y aca no
+            if(!result.Equals("")){
+        	    Console.WriteLine(result);
+        	
+            }else{
+                Console.WriteLine("Metadata added successfully");	
+            }
         
+        }
     }
 }

@@ -31,6 +31,16 @@ namespace PayHubWS.com.payhub.ws.util
             request.Accept = "application/json";
             return request;
         }
+        public HttpWebRequest setHeadersPut(String metadataUrl, String token){
+            var request = (HttpWebRequest)WebRequest.Create(metadataUrl);
+            request.ContentType = "text/json";
+            request.Method = "PUT";
+            request.Headers.Add("Authorization", "Bearer " + token);
+            request.ContentType = "application/json";
+            request.Accept = "application/json";
+            return request;
+	    }
+
         public string doPost(HttpWebRequest request, string _url)
         {
             string result = null;
@@ -120,6 +130,28 @@ namespace PayHubWS.com.payhub.ws.util
             req.Accept = "application/json";
             return req;
 
+        }
+        public String doPut(HttpWebRequest responseDataRequest,String json){
+    	    using (var streamWriter = new StreamWriter(responseDataRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+		
+    	    var response = (HttpWebResponse)responseDataRequest.GetResponse();
+            Console.WriteLine("\nSending 'Put' request to URL");
+            Console.WriteLine("Response Code : " + response.StatusCode);
+            if (HttpStatusCode.OK == response.StatusCode)
+            {
+                return "";
+            }
+            else {
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
     }
 }

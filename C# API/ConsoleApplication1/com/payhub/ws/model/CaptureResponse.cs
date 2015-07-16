@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace PayHubWS.com.payhub.ws.model
 {
     [DataContract]
-    class CaptureResponse
+    public class CaptureResponse
     {
         [DataMember]
         private string batchId;

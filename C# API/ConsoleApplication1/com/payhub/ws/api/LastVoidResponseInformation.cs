@@ -10,20 +10,20 @@ namespace PayHubWS.com.payhub.ws.api
 {   
     [DataContract]
     public class LastVoidResponseInformation
-    {       
-            private Metadata metadata;
-            [DataMember(Name = "metadata")]
-            public Metadata Metadata
+    {
+        private Object metadata;
+        [DataMember(Name = "metaData")]
+        public Object Metadata
+        {
+            get { return this.metadata.ToString(); }
+            set
             {
-                get { return this.metadata; }
-                set
-                {
-                    if (value != null)
-                        this.metadata = value;
-                }
+                if (value != null)
+                    this.metadata = value.ToString();
             }
+        }
             [DataMember]
-            private string transaction_id;
+            public string transaction_id;
             public string TransactionId
             {
                 get { return this.transaction_id; }
@@ -36,13 +36,13 @@ namespace PayHubWS.com.payhub.ws.api
                 }
             }
             [DataMember]
-            private VoidResponse lastVoidResponse;
+            public VoidResponse lastVoidResponse;
             [DataMember]
-            private string merchantOrganizationId;
+            public string merchantOrganizationId;
             [DataMember]
             public Object _links;
             [DataMember]
-            private List<Errors> errors;
+            public List<Errors> errors;
             public string rowData { get; set; }
         }
     
