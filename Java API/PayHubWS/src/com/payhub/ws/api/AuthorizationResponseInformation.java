@@ -3,28 +3,20 @@ package com.payhub.ws.api;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.payhub.ws.model.Metadata;
 import com.payhub.ws.model.AuthOnlyResponse;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class AuthorizationResponseInformation {
-	
-	private Metadata metadata;
-
-    private AuthOnlyResponse authOnlyResponse;
-    
-    public Object _links;
-
-    private List<Errors> errors;
-   
-    public String rowData;
-
-	public Metadata getMetadata() {
-		return metadata;
+    private AuthOnlyResponse authOnlyResponse;    
+    private Object _links;
+    private List<Errors> errors;  
+    private String rowData;
+    private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 
 	public AuthOnlyResponse getAuthOnlyResponse() {

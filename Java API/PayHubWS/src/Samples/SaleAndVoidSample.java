@@ -69,7 +69,8 @@ public class SaleAndVoidSample {
         VoidTransaction voidTransaction = new VoidTransaction(merchant, saleId);
         LastVoidResponseInformation voidInfo = transaction.doVoid(voidTransaction);            
         System.out.println(voidInfo.getRowData());
-    
+
+        
     }
 	 public void getInformation() throws IOException
      {

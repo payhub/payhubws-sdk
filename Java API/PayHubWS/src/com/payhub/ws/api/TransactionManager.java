@@ -302,4 +302,41 @@ public class TransactionManager extends WsConnections{
         return responseObject;  
         
     }
+    public void addMetaData(String metadata,OperationType type,String operationId) throws IOException{
+        String metadataUrl=null;
+        if(OperationType.Sale.equals(type)){
+        	metadataUrl=this._url+"metadata/forSale/"+operationId;
+        }if(OperationType.AuthOnly.equals(type)){
+        	metadataUrl=this._url+"metadata/forAuthOnly/"+operationId;
+        }if(OperationType.Capture.equals(type)){
+        	metadataUrl=this._url+"metadata/forCapture/"+operationId;
+        }if(OperationType.Bill.equals(type)){
+        	metadataUrl=this._url+"metadata/forBill/"+operationId;
+        }if(OperationType.CardData.equals(type)){
+        	metadataUrl=this._url+"metadata/forCardData/"+operationId;
+        }if(OperationType.Customer.equals(type)){
+        	metadataUrl=this._url+"metadata/forCustomer/"+operationId;
+        }if(OperationType.Merchant.equals(type)){
+        	metadataUrl=this._url+"metadata/forMerchant/"+operationId;
+        }if(OperationType.RecurringBill.equals(type)){
+        	metadataUrl=this._url+"metadata/forRecurringBill/"+operationId;
+        }if(OperationType.Schedule.equals(type)){
+        	metadataUrl=this._url+"metadata/forSchedule/"+operationId;
+        }if(OperationType.Refund.equals(type)){
+        	metadataUrl=this._url+"metadata/forRefund/"+operationId;
+        }if(OperationType.VoidTransaction.equals(type)){
+        	metadataUrl=this._url+"metadata/forVoid/"+operationId;
+        }
+        HttpURLConnection request = setHeadersPut(metadataUrl, this.getToken());
+        String result = doPut(request,metadata);//revisar el codigo del doPut porque con postman el json funciona y aca no
+        if(!result.equals("")){
+        	System.out.println(result);
+        	
+        }else{
+        	System.out.println("Metadata added successfully");	
+        }
+        
+    }
+
+	
 }

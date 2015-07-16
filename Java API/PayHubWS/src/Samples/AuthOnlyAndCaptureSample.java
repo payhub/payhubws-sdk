@@ -5,9 +5,13 @@ package Samples;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.payhub.ws.api.AuthorizationResponseInformation;
 import com.payhub.ws.api.LastCaptureResponseInformation;
+import com.payhub.ws.api.OperationType;
+import com.payhub.ws.api.SaleResponseInformation;
 import com.payhub.ws.api.TransactionManager;
 import com.payhub.ws.model.AuthOnly;
 import com.payhub.ws.model.Bill;
@@ -60,11 +64,19 @@ public class AuthOnlyAndCaptureSample {
          AuthOnly authorization = new AuthOnly(merchant,bill,card_data,customer);
 
          TransactionManager transaction = new TransactionManager(url, oauth, merchant);
-         AuthorizationResponseInformation response = transaction.doAuthonly(authorization);
+         
+
+         String datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
+        
+         
+         transaction.addMetaData(datos, OperationType.AuthOnly, "182522");
+         AuthorizationResponseInformation sale =  transaction.getAuthorizationInformation("182522");
+         System.out.println(sale.getRowData());
+         /* AuthorizationResponseInformation response = transaction.getAuthorizationInformation("182517");
          System.out.println(response.getRowData());
          String transactionId = response.getAuthOnlyResponse().getTransactionId();
          Capture capture = new Capture(merchant,transactionId,bill);
          LastCaptureResponseInformation responseCapture= transaction.doCapture(capture);            
-         System.out.println(responseCapture.rowData);
+         System.out.println(responseCapture.rowData);*/
      }
 }

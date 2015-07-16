@@ -2,20 +2,21 @@ package com.payhub.ws.api;
 
 import java.util.List;
 
-import com.payhub.ws.model.Metadata;
+
 import com.payhub.ws.model.VerifyResponse;
 
 public class VerfyResponseInformation {
-	private Metadata metadata;
+
 	private VerifyResponse verifyResponse;
 	private Object _links;
 	private List<Errors> errors;
 	private String rowData;
-	public Metadata getMetadata() {
-		return metadata;
+	private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public VerifyResponse getVerifyResponse() {
 		return verifyResponse;

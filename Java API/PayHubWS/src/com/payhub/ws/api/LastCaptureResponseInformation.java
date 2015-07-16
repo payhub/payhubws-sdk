@@ -3,22 +3,22 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.payhub.ws.model.CaptureResponse;
-import com.payhub.ws.model.Metadata;
+
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class LastCaptureResponseInformation {
-	private Metadata metadata;
+	
     private CaptureResponse lastCaptureResponse;
     public Object _links;
     private List<Errors> errors;
     public String rowData;
-     
-	public Metadata getMetadata() {
-		return metadata;
+    private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public CaptureResponse getLastCaptureResponse() {
 		return lastCaptureResponse;

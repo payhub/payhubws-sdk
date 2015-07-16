@@ -1,22 +1,24 @@
 package com.payhub.ws.api;
 
 import java.util.List;
-import com.payhub.ws.model.Metadata;
+
+
 import com.payhub.ws.model.SaleResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class SaleResponseInformation {
-	private Metadata metadata;
+	
     private SaleResponse saleResponse;
     public Object _links;
     private List<Errors> errors;
     public String rowData;
-	public Metadata getMetadata() {
-		return metadata;
+    private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public SaleResponse getSaleResponse() {
 		return saleResponse;

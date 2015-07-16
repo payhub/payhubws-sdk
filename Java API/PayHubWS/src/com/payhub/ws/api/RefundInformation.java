@@ -1,14 +1,15 @@
 package com.payhub.ws.api;
 
 import java.util.List;
+
 import com.payhub.ws.model.Merchant;
-import com.payhub.ws.model.Metadata;
+
 import com.payhub.ws.model.RefundResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class RefundInformation {
-	private Metadata metadata;
+
     private Merchant merchant;
     private String transaction_id;
     private RefundResponse lastRefundResponse;
@@ -16,11 +17,12 @@ public class RefundInformation {
     public Object _links;
     private List<Errors> errors;
     public String rowData;
-	public Metadata getMetadata() {
-		return metadata;
+    private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public Merchant getMerchant() {
 		return merchant;

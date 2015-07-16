@@ -4,6 +4,7 @@
 package com.payhub.ws.util;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,6 +58,17 @@ public class WsConnections {
         request.setRequestProperty("Accept","application/json");
         return request;
     }
+	protected HttpURLConnection setHeadersPut(String metadataUrl, String token) throws IOException {
+		URL connection = new URL(metadataUrl);
+		HttpURLConnection request = (HttpURLConnection)connection.openConnection();
+		request.setDoOutput(true);
+        request.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        request.setRequestMethod("PUT");
+        request.setRequestProperty("Authorization", "Bearer " + token);
+        request.setRequestProperty("Accept","application/json");
+        return request;
+	}
+	
     public String doPost(HttpURLConnection request, String _url)
     {
         String result = null;
@@ -149,6 +161,35 @@ public class WsConnections {
         }
         return null;
     }
-
+    public String doPut(HttpURLConnection responseDataRequest,String json) throws IOException
+    {
+    	DataOutputStream wr;
+    	wr = new DataOutputStream(responseDataRequest.getOutputStream());
+		wr.writeBytes(json);
+		wr.flush();
+		wr.close();	
+		
+    	StringBuffer response = new StringBuffer();   	
+    	int statusCode = responseDataRequest.getResponseCode();
+		System.out.println("\nSending 'Put' request to URL");
+		System.out.println("Response Code : " + statusCode);
+		if (statusCode >= 200 && statusCode < 400) {
+			return "";
+		}else{
+			BufferedReader er = new BufferedReader(new InputStreamReader(responseDataRequest.getErrorStream()));
+         	String line;
+         	try {
+         		int c = 0;
+			     while((c = er.read()) != -1) {					         
+			          response.append((char)c);
+			     }					    
+						 
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            return response.toString();
+		}  	           
+    }
    
 }

@@ -1,21 +1,22 @@
 package com.payhub.ws.api;
 import java.util.List;
-import com.payhub.ws.model.Metadata;
+
 import com.payhub.ws.model.RecurringBillResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class RecurringBillingInformation {
-	private Metadata metaData;
+	
 	private RecurringBillResponse lastRecurringBillResponse;         
 	public Object _links;
 	private List<Errors> errors;
 	public String rowData;
-	public Metadata getMetaData() {
-		return metaData;
+	private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetaData(Metadata metaData) {
-		this.metaData = metaData;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public RecurringBillResponse getLastRecurringBillResponse() {
 		return lastRecurringBillResponse;

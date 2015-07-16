@@ -1,25 +1,26 @@
 package com.payhub.ws.api;
 
 import java.util.List;
-import com.payhub.ws.model.Metadata;
+
+
 import com.payhub.ws.model.VoidResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class LastVoidResponseInformation {
-	private Metadata metadata;
+	
     private String transaction_id;
     private VoidResponse lastVoidResponse;
     private String merchantOrganizationId;
     public Object _links;
     private List<Errors> errors;
     public String rowData;
-    
-	public Metadata getMetadata() {
-		return metadata;
+    private Object metaData;
+	public String getMetaData() {
+		return (String) metaData;
 	}
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetaData(Object metadata) {
+		this.metaData = metadata;
 	}
 	public String getTransaction_id() {
 		return transaction_id;
