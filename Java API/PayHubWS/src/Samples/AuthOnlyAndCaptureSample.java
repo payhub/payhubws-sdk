@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.payhub.ws.api.AuthorizationResponseInformation;
 import com.payhub.ws.api.LastCaptureResponseInformation;
-import com.payhub.ws.api.OperationType;
+import com.payhub.ws.api.TransactionType;
 import com.payhub.ws.api.SaleResponseInformation;
 import com.payhub.ws.api.TransactionManager;
 import com.payhub.ws.model.AuthOnly;
@@ -69,7 +69,7 @@ public class AuthOnlyAndCaptureSample {
          String datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
         
          
-         transaction.addMetaData(datos, OperationType.AuthOnly, "182522");
+         transaction.addMetaData(datos, TransactionType.AuthOnly, "182522");
          AuthorizationResponseInformation sale =  transaction.getAuthorizationInformation("182522");
          System.out.println(sale.getRowData());
          /* AuthorizationResponseInformation response = transaction.getAuthorizationInformation("182517");

@@ -1,6 +1,9 @@
 package com.payhub.ws.api;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.Object;
@@ -11,15 +14,19 @@ import org.omg.CORBA.portable.OutputStream;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.payhub.ws.model.AuthOnly;
 import com.payhub.ws.model.Capture;
 import com.payhub.ws.model.Merchant;
 import com.payhub.ws.model.RecurringBill;
 import com.payhub.ws.model.Refund;
 import com.payhub.ws.model.Sale;
+import com.payhub.ws.model.TransactionSearchParameters;
 import com.payhub.ws.model.Verify;
 import com.payhub.ws.model.VoidTransaction;
 import com.payhub.ws.util.WsConnections;
@@ -44,7 +51,9 @@ public class TransactionManager extends WsConnections{
         this._oauthToken = token;
         this._merchant = m;
     }
-
+    public String getUrl(){
+    	return this._url;
+    }
     /**
      * Perform a new Sale.
      *
@@ -56,11 +65,13 @@ public class TransactionManager extends WsConnections{
     { 
         sale.setMerchant(this._merchant);
         sale.setUrl(this._url);
+        
         HttpURLConnection request = setHeadersPost(sale.getUrl(), this.getToken());
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         String json = mapper.writeValueAsString(sale);
         SaleResponseInformation response = sale.doSale(json, request);
+        response.setTransactionManager(this);
         return response;
     }
     /**
@@ -72,52 +83,102 @@ public class TransactionManager extends WsConnections{
      */
     public SaleResponseInformation getSaleInformation(String saleId) throws IOException
     {
-        SaleResponseInformation responseObject = new SaleResponseInformation();
+    	if(saleId.equals("")|| saleId==null){
+    		return null;
+    	}
+        SaleResponseInformation response = new SaleResponseInformation();
         String url = _url + Sale.SALE_ID_LINK + saleId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, SaleResponseInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;
+        response =  mapper.readValue(result, SaleResponseInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of Sales Information.
+     *
+     * @return a SaleResponseInformation list object. 
+     * @see {@link com.payhub.ws.api.SaleResponseInformation}; 
+     */
+    public List<SaleResponseInformation> getAllSalesInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + Sale.SALE_ID_LINK ;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<SaleResponseInformation> response =  mapper.readValue(node.get("_embedded").get("sales").toString(), new TypeReference<List<SaleResponseInformation>>(){});
+        for (SaleResponseInformation saleResponseInformation : response) {
+        	saleResponseInformation.setTransactionManager(this);
+		}
+        return  response;
     }
     /**
      * Perform a new Authorization.
      *
      * @param authorization object.
-     * @return a AuthorizationResponseInformation object. 
+     * @return an AuthorizationResponseInformation object. 
      * @see {@link com.payhub.ws.api.AuthorizationResponseInformation}; 
      */
     public AuthorizationResponseInformation doAuthonly(AuthOnly authorization) throws IOException
     {
     	authorization.setMerchant(this._merchant);
-    	authorization.setUrl(this._url);
         HttpURLConnection request = setHeadersPost(authorization.getUrl(), this.getToken());
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         String json = mapper.writeValueAsString(authorization);
         AuthorizationResponseInformation response = authorization.authOnly(json, request);
+        response.setTransactionManager(this);
         return response;
     }
     /**
      * Perform a new query that retrieves you the Authorization Information for a particular Authorization.
      *
      * @param String authorizationId: the ID of a particular AuthorizationOnly transaction.
-     * @return a AuthorizationResponseInformation object. 
+     * @return an AuthorizationResponseInformation object. 
      * @see {@link com.payhub.ws.api.AuthorizationResponseInformation}; 
      */
     public AuthorizationResponseInformation getAuthorizationInformation(String authorizationId) throws IOException
     {
-    	AuthorizationResponseInformation responseObject = new AuthorizationResponseInformation();
+    	if(authorizationId.equals("")|| authorizationId==null){
+    		return null;
+    	}
+    	AuthorizationResponseInformation response = new AuthorizationResponseInformation();
         String url = _url + AuthOnly.AUTH_ID_LINK+ authorizationId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, AuthorizationResponseInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;        
+        response =  mapper.readValue(result, AuthorizationResponseInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;        
+    }
+    /**
+     * Perform a new query that retrieves you the list of Authorizations Information.
+     *
+     * @return an AuthorizationResponseInformation list object. 
+     * @see {@link com.payhub.ws.api.AuthorizationResponseInformation}; 
+     */
+    public List<AuthorizationResponseInformation> getAllAuthOnlyInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + AuthOnly.AUTH_ID_LINK;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<AuthorizationResponseInformation> response =  mapper.readValue(node.get("_embedded").get("authonlys").toString(), new TypeReference<List<AuthorizationResponseInformation>>(){});
+        for (AuthorizationResponseInformation authorizationResponseInformation : response) {
+        	authorizationResponseInformation.setTransactionManager(this);
+		}
+        return  response;
     }
     /**
      * Perform a new CaptureResponse.
@@ -135,6 +196,7 @@ public class TransactionManager extends WsConnections{
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         String json = mapper.writeValueAsString(capture);
         LastCaptureResponseInformation response = capture.captureData(json, request);
+        response.setTransactionManager(this);
         return response;
     }
     /**
@@ -146,17 +208,41 @@ public class TransactionManager extends WsConnections{
      */
     public LastCaptureResponseInformation getCaptureInformation(String captureId) throws IOException
     {
-        
-    	LastCaptureResponseInformation responseObject = new LastCaptureResponseInformation();
+    	if(captureId.equals("")|| captureId==null){
+    		return null;
+    	}
+    	LastCaptureResponseInformation response = new LastCaptureResponseInformation();
         String url = _url + Capture.CAPTURE_ID_LINK+ captureId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, LastCaptureResponseInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;   
+        response =  mapper.readValue(result, LastCaptureResponseInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;   
         
+    }
+    /**
+     * Perform a new query that retrieves you the list of Captures Information.
+     *
+     * @return an LastCaptureResponseInformation list object. 
+     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     */
+    public List<LastCaptureResponseInformation> getAllCaptureInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + Capture.CAPTURE_ID_LINK;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<LastCaptureResponseInformation> response =  mapper.readValue(node.get("_embedded").get("captures").toString(), new TypeReference<List<LastCaptureResponseInformation>>(){});
+        for (LastCaptureResponseInformation lastCaptureResponseInformation : response) {
+        	lastCaptureResponseInformation.setTransactionManager(this);
+		}
+        return  response;
     }
     /**
      * Perform a new Void Transaction.
@@ -173,6 +259,7 @@ public class TransactionManager extends WsConnections{
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(voidData);
         LastVoidResponseInformation response = voidData.performVoidTransaction(json, request);
+        response.setTransactionManager(this);
         return response;
     }
     /**
@@ -184,15 +271,40 @@ public class TransactionManager extends WsConnections{
      */
     public LastVoidResponseInformation getVoidInformation(String voidId) throws IOException
     {
-        LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
+    	if(voidId.equals("")|| voidId==null){
+    		return null;
+    	}
+        LastVoidResponseInformation response = new LastVoidResponseInformation();
         String url = _url + VoidTransaction.VOID_ID_LINK+ voidId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, LastVoidResponseInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;    
+        response =  mapper.readValue(result, LastVoidResponseInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;    
+    }
+    /**
+     * Perform a new query that retrieves you the list of Voids Information.
+     *
+     * @return an LastVoidResponseInformation list object. 
+     * @see {@link com.payhub.ws.api.LastVoidResponseInformation}; 
+     */
+    public List<LastVoidResponseInformation> getAllVoidInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + VoidTransaction.VOID_ID_LINK;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<LastVoidResponseInformation> response =  mapper.readValue(node.get("_embedded").get("voids").toString(), new TypeReference<List<LastVoidResponseInformation>>(){});
+        for (LastVoidResponseInformation lastVoidResponseInformation : response) {
+        	lastVoidResponseInformation.setTransactionManager(this);
+		}
+        return  response;
     }
     /**
      * Perform a new Verify.
@@ -208,6 +320,7 @@ public class TransactionManager extends WsConnections{
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(verifyData);
         VerfyResponseInformation response = verifyData.performVerifyTransaction(json, request);
+        response.setTransactionManager(this);
         return response;
     }
     /**
@@ -219,16 +332,42 @@ public class TransactionManager extends WsConnections{
      */
     public VerfyResponseInformation getVerifyInformation(String verifyId) throws JsonProcessingException, IOException, Throwable
     {
-    	VerfyResponseInformation responseObject = new VerfyResponseInformation();
+    	if(verifyId.equals("")|| verifyId==null){
+    		return null;
+    	}
+    	VerfyResponseInformation response = new VerfyResponseInformation();
         String url = _url + Verify.VERIFY_ID_LINK+ verifyId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, VerfyResponseInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;        
+        response =  mapper.readValue(result, VerfyResponseInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;        
     }
+    /**
+     * Perform a new query that retrieves you the list of Verify Information.
+     *
+     * @return an VerfyResponseInformation list object. 
+     * @see {@link com.payhub.ws.api.VerfyResponseInformation}; 
+     */
+    public List<VerfyResponseInformation> getAllVerifyInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + Verify.VERIFY_ID_LINK;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<VerfyResponseInformation> response =  mapper.readValue(node.get("_embedded").get("verifications").toString(), new TypeReference<List<VerfyResponseInformation>>(){});
+        for (VerfyResponseInformation verfyResponseInformation : response) {
+        	verfyResponseInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    
     /**
      * Perform a new Refund.
      *
@@ -244,6 +383,7 @@ public class TransactionManager extends WsConnections{
   		ObjectMapper mapper = new ObjectMapper();
   		String json = mapper.writeValueAsString(refundData);
   		RefundInformation response = refundData.PerformRefund(json, request);
+  		response.setTransactionManager(this);
   		return response;
     }
     /**
@@ -255,15 +395,166 @@ public class TransactionManager extends WsConnections{
      */
     public RefundInformation getRefundInformation(String refundId) throws JsonParseException, JsonMappingException, IOException
     {    	
-    	RefundInformation responseObject = new RefundInformation();
+    	if(refundId.equals("")|| refundId==null){
+    		return null;
+    	}
+    	RefundInformation response = new RefundInformation();
         String url = _url + Refund.REFUND_ID_LINK+ refundId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, RefundInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;         
+        response =  mapper.readValue(result, RefundInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;         
+    }
+    /**
+     * Perform a new query that retrieves you the list of Refund Information.
+     *
+     * @return an RefundInformation list object. 
+     * @see {@link com.payhub.ws.api.VerfyResponseInformation}; 
+     */
+    public List<RefundInformation> getAllRefundInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + Refund.REFUND_ID_LINK;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<RefundInformation> response =  mapper.readValue(node.get("_embedded").get("refunds").toString(), new TypeReference<List<RefundInformation>>(){});
+        for (RefundInformation refundInformation : response) {
+        	refundInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of bills for sales Information.
+     *
+     * @return an BillInformation list object. 
+     * @see {@link com.payhub.ws.api.BillInformation}; 
+     */
+    public List<BillInformation> getAllBillForSalesInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-sale/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<BillInformation> response =  mapper.readValue(node.get("_embedded").get("billforsale").toString(), new TypeReference<List<BillInformation>>(){});
+        for (BillInformation billInformation : response) {
+        	billInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of bills for recurring bills Information.
+     *
+     * @return an BillInformation list object. 
+     * @see {@link com.payhub.ws.api.BillInformation}; 
+     */
+    public List<BillInformation> getAllBillForRecurringBillInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-recurring-bill/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<BillInformation> response =  mapper.readValue(node.get("_embedded").get("billsforrecurringbill").toString(), new TypeReference<List<BillInformation>>(){});
+        for (BillInformation billInformation : response) {
+        	billInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of Merchants.
+     *
+     * @return an MerchantInformation list object. 
+     * @see {@link com.payhub.ws.api.MerchantInformation}; 
+     */
+    public List<MerchantInformation> getAllMerchantInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-sale/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<MerchantInformation> response =  mapper.readValue(node.get("_embedded").get("merchants").toString(), new TypeReference<List<MerchantInformation>>(){});
+        for (MerchantInformation merchantInformation : response) {
+        	merchantInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of Card Data.
+     *
+     * @return an CardDataInformation list object. 
+     * @see {@link com.payhub.ws.api.CardDataInformation}; 
+     */
+    public List<CardDataInformation> getAllCardDataInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-sale/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<CardDataInformation> response =  mapper.readValue(node.get("_embedded").get("carddata").toString(), new TypeReference<List<CardDataInformation>>(){});
+        for (CardDataInformation cardDataInformation : response) {
+        	cardDataInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of Customers for sales.
+     *
+     * @return an CustomerInformation list object. 
+     * @see {@link com.payhub.ws.api.CustomerInformation}; 
+     */
+    public List<CustomerInformation> getAllCustomerForSalesInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-sale/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<CustomerInformation> response =  mapper.readValue(node.get("_embedded").get("customerforsale").toString(), new TypeReference<List<CustomerInformation>>(){});
+        for (CustomerInformation customerInformation : response) {
+        	customerInformation.setTransactionManager(this);
+		}
+        return  response;
+    }
+    /**
+     * Perform a new query that retrieves you the list of Customers for sales.
+     *
+     * @return an CustomerInformation list object. 
+     * @see {@link com.payhub.ws.api.CustomerInformation}; 
+     */
+    public List<CustomerInformation> getAllCustomerForRecurringBillInformation() throws IOException
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + "bill-for-sale/";
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<CustomerInformation> response =  mapper.readValue(node.get("_embedded").get("customers").toString(), new TypeReference<List<CustomerInformation>>(){});
+        for (CustomerInformation customerInformation : response) {
+        	customerInformation.setTransactionManager(this);
+		}
+        return  response;
     }
     /**
      * Perform a new RecurringBilling.
@@ -280,6 +571,7 @@ public class TransactionManager extends WsConnections{
    		ObjectMapper mapper = new ObjectMapper();
    		String json = mapper.writeValueAsString(recurringBill);
    		RecurringBillingInformation response = recurringBill.PerformRecurringBill(json, request);
+   		response.setTransactionManager(this);
    		return response;
     }
     /**
@@ -291,44 +583,68 @@ public class TransactionManager extends WsConnections{
      */
     public RecurringBillingInformation getRecurringBillInformation(String recurringBillId) throws IOException
     {
-    	RecurringBillingInformation responseObject = new RecurringBillingInformation();
+    	if(recurringBillId.equals("")|| recurringBillId==null){
+    		return null;
+    	}
+    	RecurringBillingInformation response = new RecurringBillingInformation();
         String url = _url + RecurringBill.RECURRENT_BILL_ID_LINK+ recurringBillId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        responseObject =  mapper.readValue(result, RecurringBillingInformation.class);
-        responseObject.setRowData(result);
-        return responseObject;  
+        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;  
         
     }
-    public void addMetaData(String metadata,OperationType type,String operationId) throws IOException{
+    public List<TransactionReportInformation> findTransactions(TransactionSearchParameters parameters)throws IOException{
+    	String url = _url + "report/transactionReport";
+        HttpURLConnection request = setHeadersPost(url, this._oauthToken);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        String json = mapper.writeValueAsString(parameters);        
+        String result = findTransactionReports(request, json);        
+        ObjectNode node = mapper.readValue(result,ObjectNode.class);
+        List<TransactionReportInformation> response = new ArrayList<TransactionReportInformation>();
+        if(node.get("errors").toString()!=null){
+        	List<Errors> errors =  mapper.readValue(node.get("errors").toString(),new TypeReference<List<Errors>>(){});
+        	TransactionReportInformation t = new TransactionReportInformation();
+        	t.setErrors(errors);
+        	response.add(t);
+        }else{
+        	 response =  mapper.readValue(node.toString(),new TypeReference<List<TransactionReportInformation>>(){});	
+        }
+        
+        return  response;
+    }
+    public void addMetaData(String metadata,TransactionType type,String operationId) throws IOException{
         String metadataUrl=null;
-        if(OperationType.Sale.equals(type)){
+        if(TransactionType.Sale.equals(type)){
         	metadataUrl=this._url+"metadata/forSale/"+operationId;
-        }if(OperationType.AuthOnly.equals(type)){
+        }if(TransactionType.AuthOnly.equals(type)){
         	metadataUrl=this._url+"metadata/forAuthOnly/"+operationId;
-        }if(OperationType.Capture.equals(type)){
+        }if(TransactionType.Capture.equals(type)){
         	metadataUrl=this._url+"metadata/forCapture/"+operationId;
-        }if(OperationType.Bill.equals(type)){
+        }if(TransactionType.Bill.equals(type)){
         	metadataUrl=this._url+"metadata/forBill/"+operationId;
-        }if(OperationType.CardData.equals(type)){
+        }if(TransactionType.CardData.equals(type)){
         	metadataUrl=this._url+"metadata/forCardData/"+operationId;
-        }if(OperationType.Customer.equals(type)){
+        }if(TransactionType.Customer.equals(type)){
         	metadataUrl=this._url+"metadata/forCustomer/"+operationId;
-        }if(OperationType.Merchant.equals(type)){
+        }if(TransactionType.Merchant.equals(type)){
         	metadataUrl=this._url+"metadata/forMerchant/"+operationId;
-        }if(OperationType.RecurringBill.equals(type)){
+        }if(TransactionType.RecurringBill.equals(type)){
         	metadataUrl=this._url+"metadata/forRecurringBill/"+operationId;
-        }if(OperationType.Schedule.equals(type)){
+        }if(TransactionType.Schedule.equals(type)){
         	metadataUrl=this._url+"metadata/forSchedule/"+operationId;
-        }if(OperationType.Refund.equals(type)){
+        }if(TransactionType.Refund.equals(type)){
         	metadataUrl=this._url+"metadata/forRefund/"+operationId;
-        }if(OperationType.VoidTransaction.equals(type)){
+        }if(TransactionType.VoidTransaction.equals(type)){
         	metadataUrl=this._url+"metadata/forVoid/"+operationId;
         }
         HttpURLConnection request = setHeadersPut(metadataUrl, this.getToken());
-        String result = doPut(request,metadata);//revisar el codigo del doPut porque con postman el json funciona y aca no
+        String result = doPut(request,metadata);
         if(!result.equals("")){
         	System.out.println(result);
         	
@@ -336,7 +652,6 @@ public class TransactionManager extends WsConnections{
         	System.out.println("Metadata added successfully");	
         }
         
-    }
-
+    }    
 	
 }

@@ -5,8 +5,13 @@ package Samples;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
+import com.payhub.ws.api.BillInformation;
+import com.payhub.ws.api.CardDataInformation;
+import com.payhub.ws.api.CustomerInformation;
 import com.payhub.ws.api.LastVoidResponseInformation;
+import com.payhub.ws.api.MerchantInformation;
 import com.payhub.ws.api.SaleResponseInformation;
 import com.payhub.ws.api.TransactionManager;
 import com.payhub.ws.model.Bill;
@@ -82,7 +87,23 @@ public class SaleAndVoidSample {
          merchant.terminal_id = 215;
 
          TransactionManager transaction = new TransactionManager(url, oauth, merchant);
-         SaleResponseInformation response = transaction.getSaleInformation("182430");
+         //List<SaleResponseInformation> s = transaction.getAllSalesInformation();
+         SaleResponseInformation response = transaction.getSaleInformation("182347");
+         BillInformation b = response.getBillInformation();
+         /*CardDataInformation card = response.getCardDataInformation();
+         MerchantInformation m = response.getMerchantInformation();
+         CustomerInformation customer = response.getCustomerInformation();
+         
+         BillInformation b1 = new BillInformation(transaction);
+         b1.getDataByID("182347");
+         CardDataInformation card1 = new CardDataInformation(transaction);
+         card1.getDataByID("9999000000001853");
+         MerchantInformation m1 = new MerchantInformation(transaction);
+         m1.getDataByID("10127215");
+         CustomerInformation customer1 = new CustomerInformation(transaction);
+         customer1.getDataByID("182347");
          System.out.println(response.getRowData());
+         */
+        
      }
 }

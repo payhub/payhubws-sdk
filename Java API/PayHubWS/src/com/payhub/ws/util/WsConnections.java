@@ -144,9 +144,10 @@ public class WsConnections {
              {
                  if (!wex.getMessage().isEmpty())
                  {
+                	 try {
                  	BufferedReader er = new BufferedReader(new InputStreamReader(responseDataRequest.getErrorStream()));
                  	String line;
-                 	try {
+                 	
                  		int c = 0;
 					     while((c = er.read()) != -1) {					         
 					          response.append((char)c);
@@ -191,5 +192,39 @@ public class WsConnections {
             return response.toString();
 		}  	           
     }
-   
+    public String findTransactionReports(HttpURLConnection responseDataRequest,String json) throws IOException
+    {
+    	DataOutputStream wr;
+    	wr = new DataOutputStream(responseDataRequest.getOutputStream());
+		wr.writeBytes(json);
+		wr.flush();
+		wr.close();	
+		
+    	StringBuffer response = new StringBuffer();   	
+    	int statusCode = responseDataRequest.getResponseCode();
+		System.out.println("Response Code : " + statusCode);
+		if (statusCode >= 200 && statusCode < 400) {
+			BufferedReader in = new BufferedReader(new InputStreamReader(responseDataRequest.getInputStream()));
+        	String line;
+        	while ((line = in.readLine()) != null){ 
+        		response.append(line); 
+        	}
+        		in.close();
+                return response.toString();   	
+		}else{
+			BufferedReader er = new BufferedReader(new InputStreamReader(responseDataRequest.getErrorStream()));
+         	String line;
+         	try {
+         		int c = 0;
+			     while((c = er.read()) != -1) {					         
+			          response.append((char)c);
+			     }					    
+						 
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            return response.toString();
+		}  	           
+    }
 }

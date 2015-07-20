@@ -2,7 +2,7 @@ package Samples;
 
 import java.io.IOException;
 
-import com.payhub.ws.api.OperationType;
+import com.payhub.ws.api.TransactionType;
 import com.payhub.ws.api.TransactionManager;
 import com.payhub.ws.model.Merchant;
 
@@ -15,6 +15,6 @@ public class MetadataSample {
         merchant.terminal_id = 215;	
 		TransactionManager transaction = new TransactionManager(url, oauth, merchant);
 	    String datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
-	    transaction.addMetaData(datos, OperationType.AuthOnly, "182522");
+	    transaction.addMetaData(datos, TransactionType.AuthOnly, "182522");
 	}
 }

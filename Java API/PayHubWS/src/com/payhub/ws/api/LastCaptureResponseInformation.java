@@ -1,7 +1,10 @@
 package com.payhub.ws.api;
+import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.payhub.ws.model.CaptureResponse;
 
 
@@ -14,6 +17,10 @@ public class LastCaptureResponseInformation {
     private List<Errors> errors;
     public String rowData;
     private Object metaData;
+    private TransactionManager transactionManager;
+    private BillInformation billInformation;
+    private MerchantInformation merchantInformation; 
+    
 	public String getMetaData() {
 		return (String) metaData;
 	}
@@ -44,5 +51,39 @@ public class LastCaptureResponseInformation {
 	public void setRowData(String rowData) {
 		this.rowData = rowData;
 	}
-     
+	/**
+	 * @param transactionManager the transactionManager to set
+	 */
+	public void setTransactionManager(TransactionManager transactionManager) {
+		this.transactionManager = transactionManager;
+	}
+	/**
+	 * @return the billInformation
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
+	 */
+	public BillInformation getBillInformation() throws JsonParseException, JsonMappingException, IOException {
+		if(billInformation==null){
+			BillInformation b = new BillInformation(this.transactionManager);
+			b.setUrl(this.transactionManager.getUrl()+"capture/");
+			b.getBillForRecurringBillInformationById(lastCaptureResponse.getTransactionId());
+			billInformation=b;
+		}
+		return billInformation;
+	}
+	/**
+	 * @return the merchantInformation
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
+	 */
+	public MerchantInformation getMerchantInformation() throws JsonParseException, JsonMappingException, IOException {
+		if(merchantInformation==null){			
+				MerchantInformation m = new MerchantInformation(this.transactionManager);
+				m.getDataByTransaction(TransactionType.Capture, lastCaptureResponse.getTransactionId());
+				merchantInformation=m;				
+			}
+		return merchantInformation;
+	}
 }

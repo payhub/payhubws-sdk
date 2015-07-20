@@ -1,10 +1,16 @@
 package com.payhub.ws.api;
 
+import java.io.IOException;
 import java.util.List;
+
+
+
 
 
 import com.payhub.ws.model.VoidResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
 public class LastVoidResponseInformation {
@@ -16,6 +22,8 @@ public class LastVoidResponseInformation {
     private List<Errors> errors;
     public String rowData;
     private Object metaData;
+    private TransactionManager transactionManager;
+    private MerchantInformation merchantInformation; 
 	public String getMetaData() {
 		return (String) metaData;
 	}
@@ -58,5 +66,26 @@ public class LastVoidResponseInformation {
 	public void setRowData(String rowData) {
 		this.rowData = rowData;
 	}
-    
+	
+	/**
+	 * @param transactionManager the transactionManager to set
+	 */
+	public void setTransactionManager(TransactionManager transactionManager) {
+		this.transactionManager = transactionManager;
+	}
+	
+	/**
+	 * @return the merchantInformation
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
+	 */
+	public MerchantInformation getMerchantInformation() throws JsonParseException, JsonMappingException, IOException {
+		if(merchantInformation==null){			
+				MerchantInformation m = new MerchantInformation(this.transactionManager);
+				m.getDataByTransaction(TransactionType.VoidTransaction, transaction_id);
+				merchantInformation=m;				
+			}
+		return merchantInformation;
+	}
 }
