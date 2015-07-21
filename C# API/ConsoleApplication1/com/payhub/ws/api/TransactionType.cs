@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PayHubWS.com.payhub.ws.api
 {
-    public enum OperationType
+    public enum TransactionType
     {
         Sale,//forSale
         AuthOnly,//forAuthOnly
@@ -18,6 +18,7 @@ namespace PayHubWS.com.payhub.ws.api
         RecurringBill,//forRecurringBill
         Schedule,//forSchedule
         Refund,//forRefund
-        VoidTransaction,//forVoid
+        VoidTransaction,
+        Verify//forVoid
     }
 }

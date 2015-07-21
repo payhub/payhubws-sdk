@@ -11,6 +11,7 @@ using System.Net;
 using PayHubWS.com.payhub.ws.api;
 using PayHubWS.com.payhub.ws.model;
 using PayHubWS.com.payhub.ws.util;
+using Newtonsoft.Json.Linq;
 namespace PayHubWS.payhub.ws.api
 {
     ///  @author Agustin Breit 
@@ -81,7 +82,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(sale._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(sale, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             SaleResponseInformation response = sale.doSale(json, request);
-
+            response.transactionManager=this;
             return response;
         }
         /// <summary> 
@@ -97,14 +98,34 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public SaleResponseInformation getSaleInformation(string saleId)
         {
-            SaleResponseInformation responseObject = new SaleResponseInformation();
+            SaleResponseInformation response = new SaleResponseInformation();
             var url = _url + Sale.SALE_ID_LINK + saleId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<SaleResponseInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<SaleResponseInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
         }
+     ///<summary> 
+     /// Perform a new query that retrieves you the list of Sales Information.
+     /// <returns>
+     /// a SaleResponseInformation list object.
+     /// </returns> 
+    ///</summary>
+    public List<SaleResponseInformation> getAllSalesInformation()
+    {
+    	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
+        String url = _url + Sale.SALE_ID_LINK ;
+        HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        var node = JObject.Parse(result);
+        List<SaleResponseInformation> response = JsonConvert.DeserializeObject<List<SaleResponseInformation>>(node["_embedded"]["sales"].ToString());           
+        foreach (SaleResponseInformation saleResponseInformation in response) {
+        	saleResponseInformation.transactionManager=this;
+		}
+        return  response;
+    }
         /// <summary> 
         /// Perform a new AuthOnly.
         ///
@@ -123,7 +144,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(authorization._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(authorization, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             AuthorizationResponseInformation response = authorization.authonly(json, request);
-
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -139,13 +160,34 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public AuthorizationResponseInformation getAuthorizationInformation(string authorizationId)
         {
-            AuthorizationResponseInformation responseObject = new AuthorizationResponseInformation();
+            AuthorizationResponseInformation response = new AuthorizationResponseInformation();
             var url = _url + AuthOnly.AUTH_ID_LINK + authorizationId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<AuthorizationResponseInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<AuthorizationResponseInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of AuthOnly Information.
+        /// <returns>
+        /// a AuthorizationResponseInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<AuthorizationResponseInformation> getAllAuthOnlyInformation()
+        {
+           
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<AuthorizationResponseInformation> response = JsonConvert.DeserializeObject<List<AuthorizationResponseInformation>>(node["_embedded"]["authonlys"].ToString());
+            foreach (AuthorizationResponseInformation authorizationResponseInformation in response)
+            {
+                authorizationResponseInformation.transactionManager = this;
+            }
+            return response;
         }
         /// <summary> 
         /// Perform a new Capture.
@@ -165,7 +207,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(capture._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(capture, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             LastCaptureResponseInfromation response = capture.captureData(json, request);
-
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -181,13 +223,34 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public LastCaptureResponseInfromation getCaptureInformation(string captureId)
         {
-            LastCaptureResponseInfromation responseObject = new LastCaptureResponseInfromation();
+            LastCaptureResponseInfromation response = new LastCaptureResponseInfromation();
             var url = _url + Capture.CAPTURE_ID_LINK + captureId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<LastCaptureResponseInfromation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<LastCaptureResponseInfromation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Captures Information.
+        /// <returns>
+        /// a LastCaptureResponseInfromation list object.
+        /// </returns> 
+        ///</summary>
+        public List<LastCaptureResponseInfromation> getAllCaptureInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<LastCaptureResponseInfromation> response = JsonConvert.DeserializeObject<List<LastCaptureResponseInfromation>>(node["_embedded"]["authonlys"].ToString());
+            foreach (LastCaptureResponseInfromation lastCaptureResponseInfromation in response)
+            {
+                lastCaptureResponseInfromation.transactionManager = this;
+            }
+            return response;
         }
         /// <summary> 
         /// Perform a new VoidTransaction.
@@ -207,7 +270,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(voidData._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(voidData, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             LastVoidResponseInformation response = voidData.performVoidTransaction(json, request);
-
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -223,13 +286,34 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public LastVoidResponseInformation getVoidInformation(string voidId)
         {
-            LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
+            LastVoidResponseInformation response = new LastVoidResponseInformation();
             var url = _url + VoidTransaction.VOID_ID_LINK + voidId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<LastVoidResponseInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<LastVoidResponseInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Voids Information.
+        /// <returns>
+        /// a LastVoidResponseInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<LastVoidResponseInformation> getAllVoidResponseInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<LastVoidResponseInformation> response = JsonConvert.DeserializeObject<List<LastVoidResponseInformation>>(node["_embedded"]["voids"].ToString());
+            foreach (LastVoidResponseInformation lastVoidResponseInformation in response)
+            {
+                lastVoidResponseInformation.transactionManager = this;
+            }
+            return response;
         }
         /// <summary> 
         /// Perform a new Verify.
@@ -247,6 +331,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(verifyData._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(verifyData, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             VerifyResponseInformation response = verifyData.performVoidTransaction(json, request);
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -262,14 +347,36 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public VerifyResponseInformation getVerifyInformation(string verifyId)
         {
-            VerifyResponseInformation responseObject = new VerifyResponseInformation();
+            VerifyResponseInformation response = new VerifyResponseInformation();
             var url = _url + Verify.VERIFY_ID_LINK + verifyId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<VerifyResponseInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<VerifyResponseInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
         }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Verify Information.
+        /// <returns>
+        /// a VerifyResponseInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<VerifyResponseInformation> getAllVerifyResponseInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<VerifyResponseInformation> response = JsonConvert.DeserializeObject<List<VerifyResponseInformation>>(node["_embedded"]["verifications"].ToString());
+            foreach (VerifyResponseInformation verifyResponseInformation in response)
+            {
+                verifyResponseInformation.transactionManager = this;
+            }
+            return response;
+        }
+
         /// <summary> 
         /// Perform a new Refund.
         ///
@@ -288,6 +395,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(refundData._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(refundData, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             RefundInformation response = refundData.PerformRefund(json, request);
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -303,13 +411,154 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public RefundInformation getRefundInformation(string refundId)
         {
-            RefundInformation responseObject = new RefundInformation();
+            RefundInformation response = new RefundInformation();
             var url = _url + Refund.REFUND_ID_LINK + refundId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<RefundInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<RefundInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Refund Information.
+        /// <returns>
+        /// a RefundInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<RefundInformation> getAllRefundInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<RefundInformation> response = JsonConvert.DeserializeObject<List<RefundInformation>>(node["_embedded"]["refunds"].ToString());
+            foreach (RefundInformation refundInformation in response)
+            {
+                refundInformation.transactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Bills for Sales Information.
+        /// <returns>
+        /// a BillInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<BillInformation> getAllBillForSaleInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<BillInformation> response = JsonConvert.DeserializeObject<List<BillInformation>>(node["_embedded"]["billforsale"].ToString());
+            foreach (BillInformation billInformation in response)
+            {
+                billInformation.TransactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Bills for Recurring Bill Information.
+        /// <returns>
+        /// a BillInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<BillInformation> getAllBillForRecurringBillInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<BillInformation> response = JsonConvert.DeserializeObject<List<BillInformation>>(node["_embedded"]["billsforrecurringbill"].ToString());
+            foreach (BillInformation billInformation in response)
+            {
+                billInformation.TransactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Merchant Information.
+        /// <returns>
+        /// a MerchantInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<MerchantInformation> getAllMerchantInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<MerchantInformation> response = JsonConvert.DeserializeObject<List<MerchantInformation>>(node["_embedded"]["merchants"].ToString());
+            foreach (MerchantInformation merchantInformation in response)
+            {
+                merchantInformation.TransactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Card Data.
+        /// <returns>
+        /// a CardDataInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<CardDataInformation> getAllCardDataInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<CardDataInformation> response = JsonConvert.DeserializeObject<List<CardDataInformation>>(node["_embedded"]["carddata"].ToString());
+            foreach (CardDataInformation cardDataInformation in response)
+            {
+                cardDataInformation.TransactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Customers for sales.
+        /// <returns>
+        /// a CustomerInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<CustomerInformation> getAllCustomerForSalesInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<CustomerInformation> response = JsonConvert.DeserializeObject<List<CustomerInformation>>(node["_embedded"]["customerforsale"].ToString());
+            foreach (CustomerInformation customerInformation in response)
+            {
+                customerInformation.TransactionManager = this;
+            }
+            return response;
+        }
+        ///<summary> 
+        /// Perform a new query that retrieves you the list of Customers for Recurring billings.
+        /// <returns>
+        /// a CustomerInformation list object.
+        /// </returns> 
+        ///</summary>
+        public List<CustomerInformation> getAllCustomerForRecurringBillInformation()
+        {
+
+            String url = _url + Sale.SALE_ID_LINK;
+            HttpWebRequest request = setHeadersGet(url, this._oauthToken);
+            String result = doGet(request);
+            var node = JObject.Parse(result);
+            List<CustomerInformation> response = JsonConvert.DeserializeObject<List<CustomerInformation>>(node["_embedded"]["customers"].ToString());
+            foreach (CustomerInformation customerInformation in response)
+            {
+                customerInformation.TransactionManager = this;
+            }
+            return response;
         }
         /// <summary> 
         /// Perform a new RecurringBilling.
@@ -329,6 +578,7 @@ namespace PayHubWS.payhub.ws.api
             var request = setHeadersPost(recurringBill._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(recurringBill, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             RecurringBillInformation response = recurringBill.PerformRecurringBill(json, request);
+            response.transactionManager = this;
             return response;
         }
         /// <summary> 
@@ -344,14 +594,109 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public RecurringBillInformation getRecurringBillInformation(string refundId)
         {
-            RecurringBillInformation responseObject = new RecurringBillInformation();
+            RecurringBillInformation response = new RecurringBillInformation();
             var url = _url + RecurringBill.RECURRENT_BILL_ID_LINK + refundId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
-            responseObject = JsonConvert.DeserializeObject<RecurringBillInformation>(result);
-            responseObject.rowData = result;
-            return responseObject;
+            response = JsonConvert.DeserializeObject<RecurringBillInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
         }
+        /// <summary> 
+        ///  Perform a new query that retrieves you the Recurring Bill Information from a Merchant Id.
+        ///
+        /// <param name="recurringBillId"> 
+        /// String recurringBillId: the ID of a particular Recurring Bill Transaction.
+        /// </param>
+        /// <returns>
+        /// a RecurringBillingInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RecurringBillInformation"/>
+        /// </summary> 
+        public RecurringBillInformation findRecurringBillInformationByMerchantOrganization(string merchantId) 
+        {
+            if (merchantId.Equals("") || merchantId == null)
+            {
+                return null;
+            }
+            RecurringBillInformation response = new RecurringBillInformation();
+            var url = _url + "recurring-bill/search/findByMerchantOrganizationId?organizationId=" + merchantId;
+            var request = setHeadersGet(url, this._oauthToken);
+            string result = doGet(request);
+            response = JsonConvert.DeserializeObject<RecurringBillInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        /// <summary> 
+        ///  Perform a new query that retrieves you the Recurring Bill Information from a Customer Id.
+        ///
+        /// <param name="recurringBillId"> 
+        /// String recurringBillId: the ID of a particular Recurring Bill Transaction.
+        /// </param>
+        /// <returns>
+        /// a RecurringBillingInformation object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.RecurringBillInformation"/>
+        /// </summary> 
+        public RecurringBillInformation findRecurringBillInformationByCustomer(string customerId)
+        {
+            if (customerId.Equals("") || customerId == null)
+            {
+                return null;
+            }
+            RecurringBillInformation response = new RecurringBillInformation();
+            var url = _url + "recurring-bill/search/findByCustomerRef?customerId=" + customerId;
+            var request = setHeadersGet(url, this._oauthToken);
+            string result = doGet(request);
+            response = JsonConvert.DeserializeObject<RecurringBillInformation>(result);
+            response.rowData = result;
+            response.transactionManager = this;
+            return response;
+        }
+        /// <summary> 
+        /// Perform a new query that retrieves you the Transaction results from a set of parameters.
+        ///
+        /// <param name="parameters"> 
+        /// String parameters: the set of parameters to search the transactions.
+        /// </param>
+        /// <returns>
+        /// a TransactionReportInformation List object.
+        /// </returns>   
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.TransactionReportInformation"/>
+        /// </summary> 
+        public List<TransactionReportInformation> findTransactions(TransactionSearchParameters parameters)
+        {
+            String url = _url + "report/transactionReport";
+            HttpWebRequest request = setHeadersPost(url, this._oauthToken);
+            string json = JsonConvert.SerializeObject(parameters, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+            string result = findTransactionReports(request, json);
+            var node = JObject.Parse(result);
+            List<TransactionReportInformation> response=new List<TransactionReportInformation>();
+            if (node["errors"].ToString() != null)
+            {
+                
+                List<Errors> errors = JsonConvert.DeserializeObject<List<Errors>>(node["errors"].ToString());
+                TransactionReportInformation t = new TransactionReportInformation();
+                t.Errors=errors;
+                response.Add(t);
+            }
+            else
+            {
+                response =JsonConvert.DeserializeObject<List<TransactionReportInformation>>(node.ToString());
+            }
+
+            return response;
+        }
+
+        
 
         /// <summary> 
         /// Add Metadata on one transaction.
@@ -366,29 +711,29 @@ namespace PayHubWS.payhub.ws.api
         /// String operationId: the Id of the operation.
         /// </param>
         /// </summary> 
-        public void addMetaData(String metadata,OperationType type,String operationId){
+        public void addMetaData(String metadata,TransactionType type,String operationId){
             string metadataUrl=null;
-            if(OperationType.Sale.Equals(type)){
+            if(TransactionType.Sale.Equals(type)){
         	    metadataUrl=this._url+"metadata/forSale/"+operationId;
-            }if(OperationType.AuthOnly.Equals(type)){
+            }if(TransactionType.AuthOnly.Equals(type)){
         	    metadataUrl=this._url+"metadata/forAuthOnly/"+operationId;
-            }if(OperationType.Capture.Equals(type)){
+            }if(TransactionType.Capture.Equals(type)){
         	    metadataUrl=this._url+"metadata/forCapture/"+operationId;
-            }if(OperationType.Bill.Equals(type)){
+            }if(TransactionType.Bill.Equals(type)){
         	    metadataUrl=this._url+"metadata/forBill/"+operationId;
-            }if(OperationType.CardData.Equals(type)){
+            }if(TransactionType.CardData.Equals(type)){
         	    metadataUrl=this._url+"metadata/forCardData/"+operationId;
-            }if(OperationType.Customer.Equals(type)){
+            }if(TransactionType.Customer.Equals(type)){
         	    metadataUrl=this._url+"metadata/forCustomer/"+operationId;
-            }if(OperationType.Merchant.Equals(type)){
+            }if(TransactionType.Merchant.Equals(type)){
         	    metadataUrl=this._url+"metadata/forMerchant/"+operationId;
-            }if(OperationType.RecurringBill.Equals(type)){
+            }if(TransactionType.RecurringBill.Equals(type)){
         	    metadataUrl=this._url+"metadata/forRecurringBill/"+operationId;
-            }if(OperationType.Schedule.Equals(type)){
+            }if(TransactionType.Schedule.Equals(type)){
         	    metadataUrl=this._url+"metadata/forSchedule/"+operationId;
-            }if(OperationType.Refund.Equals(type)){
+            }if(TransactionType.Refund.Equals(type)){
         	    metadataUrl=this._url+"metadata/forRefund/"+operationId;
-            }if(OperationType.VoidTransaction.Equals(type)){
+            }if(TransactionType.VoidTransaction.Equals(type)){
         	    metadataUrl=this._url+"metadata/forVoid/"+operationId;
             }
             HttpWebRequest request = setHeadersPut(metadataUrl, this._oauthToken);

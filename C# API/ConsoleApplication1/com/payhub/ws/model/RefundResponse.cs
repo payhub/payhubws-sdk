@@ -12,9 +12,12 @@ namespace PayHubWS.com.payhub.ws.model
     {
         [DataMember]
         private string saleTransactionId;
+        public string SaleTransactionId { get { return this.saleTransactionId; } set { this.saleTransactionId = value; } }
         [DataMember]
         private string refundTransactionId;
+        public string RefundTransactionId { get { return this.refundTransactionId; } set { this.refundTransactionId = value; } }
         [DataMember]
         private string token;
+        public string Token { get { return this.token; } set { this.token = value; } }
     }
 }

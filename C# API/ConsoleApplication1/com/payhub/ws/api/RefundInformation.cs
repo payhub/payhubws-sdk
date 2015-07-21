@@ -1,4 +1,5 @@
 ﻿using PayHubWS.com.payhub.ws.model;
+using PayHubWS.payhub.ws.api;
 using PayHubWS.payhub.ws.model;
 using System;
 using System.Collections.Generic;
@@ -48,5 +49,21 @@ namespace PayHubWS.com.payhub.ws.api
         [DataMember]
         public List<Errors> errors;
         public string rowData { get; set; }
+        private TransactionManager _transactionManager;
+        public TransactionManager transactionManager { set { this.transactionManager = value; } }
+        private MerchantInformation _merchantInformation;
+        public MerchantInformation merchantInformation
+        {
+            get
+            {
+                if (_merchantInformation == null)
+                {
+                    MerchantInformation m = new MerchantInformation(this._transactionManager);
+                    m.getDataByTransaction(TransactionType.Refund, lastRefundResponse.RefundTransactionId);
+                    _merchantInformation = m;
+                }
+                return _merchantInformation;
+            }
+        }
     }
 }

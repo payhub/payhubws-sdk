@@ -27,32 +27,32 @@ namespace PayHubWS.com.payhub.ws.model
             }
         }
         [DataMember]
-        private string approvalCode;
+        public string approvalCode;
         [DataMember]
-        private string processedDateTime;
+        public string processedDateTime;
         [DataMember]
-        private string avsResultCode;
+        public string avsResultCode;
         [DataMember]
-        private string verificationResultCode;
+        public string verificationResultCode;
         [DataMember]
-        private string batchId;
+        public string batchId;
         [DataMember]
-        private string responseCode;
+        public string responseCode;
         [DataMember]
-        private string responseText;
+        public string responseText;
         [DataMember]
-        private string cisNote;
+        public string cisNote;
         [DataMember]
-        private string riskStatusResponseText;
+        public string riskStatusResponseText;
         [DataMember]
-        private string riskStatusRespondeCode;
+        public string riskStatusRespondeCode;
         [DataMember]
-        private string dateTime;
+        public string dateTime;
         [DataMember]
-        private string tokenizedCard;
+        public string tokenizedCard;
         [DataMember]
-        private BillingReferences billingReferences;
+        public BillingReferences billingReferences;
         [DataMember]
-        private CustomerReference customerReference;
+        public CustomerReference customerReference;
     }
 }

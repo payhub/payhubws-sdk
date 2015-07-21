@@ -11,7 +11,7 @@ namespace PayHubWS.com.payhub.ws.model
     public class VoidResponse
     {
         [DataMember]
-        private string saleTransactionId;
+        public string saleTransactionId;
         
         [DataMember]
         private string voidTransactionId;
@@ -27,6 +27,6 @@ namespace PayHubWS.com.payhub.ws.model
             }
         }
         [DataMember]
-        private string token;
+        public string token;
     }
 }

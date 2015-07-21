@@ -536,7 +536,7 @@ public class TransactionManager extends WsConnections{
         return  response;
     }
     /**
-     * Perform a new query that retrieves you the list of Customers for sales.
+     * Perform a new query that retrieves you the list of Customers for Recurring billings.
      *
      * @return an CustomerInformation list object. 
      * @see {@link com.payhub.ws.api.CustomerInformation}; 
@@ -588,6 +588,55 @@ public class TransactionManager extends WsConnections{
     	}
     	RecurringBillingInformation response = new RecurringBillingInformation();
         String url = _url + RecurringBill.RECURRENT_BILL_ID_LINK+ recurringBillId;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;  
+        
+    }
+    /**
+     * Perform a new query that retrieves you the Recurring Bill Information from a Merchant Id.
+     *
+     * @param String customerId: the ID of a particular Merchant Organization.
+     * @return a RecurringBillingInformation object. 
+     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     */
+    public RecurringBillingInformation findRecurringBillInformationByMerchantOrganization(String merchantId) throws IOException
+    {
+    	if(merchantId.equals("")|| merchantId==null){
+    		return null;
+    	}
+    	RecurringBillingInformation response = new RecurringBillingInformation();
+        String url = _url + "recurring-bill/search/findByMerchantOrganizationId?organizationId="+ merchantId;
+        HttpURLConnection request = setHeadersGet(url, this._oauthToken);
+        String result = doGet(request);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response.setRowData(result);
+        response.setTransactionManager(this);
+        return response;  
+        
+    }
+    
+    /**
+     * Perform a new query that retrieves you the Recurring Bill Information from a Customer Id.
+     *
+     * @param String customerId: the ID of a particular Customer.
+     * @return a RecurringBillingInformation object. 
+     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     */
+    public RecurringBillingInformation findRecurringBillInformationByCustomer(String customerId) throws IOException
+    {
+    	if(customerId.equals("")|| customerId==null){
+    		return null;
+    	}
+    	RecurringBillingInformation response = new RecurringBillingInformation();
+        String url = _url + "recurring-bill/search/findByCustomerRef?customerId="+ customerId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();

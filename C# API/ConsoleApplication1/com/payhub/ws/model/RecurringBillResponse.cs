@@ -13,9 +13,12 @@ namespace PayHubWS.com.payhub.ws.model
     {
         [DataMember]
         private string recurringBillId;
+        public string RecurringBillId { get { return this.recurringBillId; } set { this.recurringBillId = value; } }
         [DataMember]
         private CustomerReference customerReference;
+        public CustomerReference CustomerReference { get { return this.customerReference; } set { this.customerReference = value; } }
         [DataMember]
         private BillingReferences billingReferences;
+        public BillingReferences BillingReferences { get { return this.billingReferences; } set { this.billingReferences = value; } }
     }
 }

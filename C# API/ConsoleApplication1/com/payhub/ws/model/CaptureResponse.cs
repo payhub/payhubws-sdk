@@ -14,9 +14,12 @@ namespace PayHubWS.com.payhub.ws.model
     {
         [DataMember]
         private string batchId;
+        public string BatchId { get{return this.batchId;} set { this.batchId=value; }}
         [DataMember]
         private string transactionId;
+        public string TransactionId { get { return this.transactionId; } set { this.transactionId = value; } }
         [DataMember]
-        private BillingReferences billingReferences;        
+        private BillingReferences billingReferences;
+        public BillingReferences BillingReferences { get { return this.billingReferences; } set { this.billingReferences = value; } }
     }
 }

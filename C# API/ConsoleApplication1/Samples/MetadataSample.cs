@@ -20,7 +20,7 @@ namespace PayHubWS.Samples
             merchant.terminal_id = 215;
 		    TransactionManager transaction = new TransactionManager(url, oauth, merchant);
 	        string datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
-            transaction.addMetaData(datos, OperationType.AuthOnly, "182525");
+            transaction.addMetaData(datos, TransactionType.AuthOnly, "182525");
 	    }
     }
 }

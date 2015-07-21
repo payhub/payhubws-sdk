@@ -153,5 +153,30 @@ namespace PayHubWS.com.payhub.ws.util
                 }
             }
         }
+        public string findTransactionReports(HttpWebRequest request, string json)
+        {
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+            Console.WriteLine("\nSending 'Put' request to URL");
+            Console.WriteLine("Response Code : " + response.StatusCode);
+            if (HttpStatusCode.OK == response.StatusCode)
+            {
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                return reader.ReadToEnd();
+            }
+            else
+            {
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
     }
 }
