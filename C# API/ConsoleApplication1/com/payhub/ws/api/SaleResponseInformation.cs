@@ -14,9 +14,9 @@ namespace PayHubWS.com.payhub.ws.api
     [DataContract]
     public class SaleResponseInformation
     {
-
-        private Object metadata;
         [DataMember(Name = "metaData")]
+        private Object metadata;
+        
         public Object Metadata
         {
             get { return this.metadata.ToString(); }

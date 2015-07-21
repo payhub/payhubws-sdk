@@ -18,9 +18,9 @@ namespace PayHubWS.payhub.ws.model
         [DataMember]
         public string invoice_number { get; set; }
         [DataMember]
-        public long customerId { get; set; }
+        public long? customerId { get; set; }
         [DataMember]
-        public long customerCardId { get; set; }
+        public long? customerCardId { get; set; }
         [DataMember]
         private TransactionAmount tax_amount;
         public decimal Tax_amount
@@ -68,8 +68,8 @@ namespace PayHubWS.payhub.ws.model
                 this.shipping_amount = new TransactionAmount(value);
             }
         }
-        
 
+        public Bill() { } 
 
 	}
 

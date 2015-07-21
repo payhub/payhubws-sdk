@@ -6,17 +6,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace PayHubWS.com.payhub.ws.api
 {
+    [DataContract]
     public class CustomerInformation
     {
+        [DataMember(Name = "version")]
         private string _version;
-	    private string _createdAt;
-	    private string _lastModified;
-	    private string _createdBy;
-	    private string _lastModifiedBy;
+        [DataMember(Name = "createdAt")]
+        private string _createdAt;
+        [DataMember(Name = "lastModified")]
+        private string _lastModified;
+        [DataMember(Name = "createdBy")]
+        private string _createdBy;
+        [DataMember(Name = "lastModifiedBy")]
+        private string _lastModifiedBy;
+        [DataMember(Name = "metaData")]
 	    private Object _metaData;
 	    private TransactionManager transactionManager;
         public TransactionManager TransactionManager { set { this.transactionManager = value; } }
@@ -51,7 +59,7 @@ namespace PayHubWS.com.payhub.ws.api
         }
 
          private void convertDataToCustomer(String json){
-            customer=JsonConvert.DeserializeObject<Customer>(json);
+             customer = JsonConvert.DeserializeObject<Customer>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 	    }
     
         public void getCustomerForSaleInformationByTransactionId(String id){

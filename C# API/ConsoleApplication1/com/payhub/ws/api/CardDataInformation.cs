@@ -24,7 +24,7 @@ namespace PayHubWS.com.payhub.ws.api
 
         public override void convertData(string json)
         {
-            cardData = JsonConvert.DeserializeObject<CardData>(json);
+            cardData = JsonConvert.DeserializeObject<CardData>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
         }
 
         public override string getUrlForTransactionType(TransactionType type)

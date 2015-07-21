@@ -23,7 +23,7 @@ namespace PayHubWS.com.payhub.ws.api
         }
         public override void convertData(string json)
         {
-            merchant = JsonConvert.DeserializeObject<Merchant>(json);
+            merchant = JsonConvert.DeserializeObject<Merchant>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
         }
 
         public override string getUrlForTransactionType(TransactionType type)

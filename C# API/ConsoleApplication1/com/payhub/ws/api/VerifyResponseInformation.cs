@@ -11,8 +11,9 @@ namespace PayHubWS.com.payhub.ws.api
 {   [DataContract]
     public class VerifyResponseInformation
     {
+    [DataMember(Name = "metaData")]
         private Object metadata;
-        [DataMember(Name = "metaData")]
+        
         public Object Metadata
         {
             get { return this.metadata.ToString(); }

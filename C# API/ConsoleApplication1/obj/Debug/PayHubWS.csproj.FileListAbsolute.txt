@@ -22,3 +22,9 @@ C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\Pay
 C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll
 C:\Users\agustin\Documents\payhubws-sdk\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
 C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\PayHubWS.exe.config
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\PayHubWS.exe
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\PayHubWS.pdb
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Debug\PayHubWS.exe
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Debug\PayHubWS.pdb

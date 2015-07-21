@@ -14,12 +14,18 @@ namespace PayHubWS.com.payhub.ws.api
     [DataContract]
     public class BillInformation
     {
+        [DataMember(Name = "version")]
         private string _version;
-	    private string _createdAt;
-	    private string _lastModified;
-	    private string _createdBy;
-	    private string _lastModifiedBy;
-	    private Object _metaData;
+        [DataMember(Name = "createdAt")]
+        private string _createdAt;
+       [DataMember(Name = "lastModified")]
+        private string _lastModified;
+        [DataMember(Name = "createdBy")]
+        private string _createdBy;
+       [DataMember(Name = "lastModifiedBy")]
+        private string _lastModifiedBy;
+        [DataMember(Name = "metaData")]
+        private Object _metaData;
 	    private TransactionManager transactionManager;
         public TransactionManager TransactionManager { set { this.transactionManager = value; } }
 	    private TransactionType transactionType;
@@ -53,8 +59,8 @@ namespace PayHubWS.com.payhub.ws.api
             this.metaData = (string)node["metaData"];
         }
 
-        private void convertDataToBill(String json){
-            bill=JsonConvert.DeserializeObject<Bill>(json);
+        public void convertDataToBill(String json){
+            bill = JsonConvert.DeserializeObject<Bill>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 	    }
 
         public void getBillForSaleInformationByTransactionId(String id){

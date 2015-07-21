@@ -12,8 +12,9 @@ namespace PayHubWS.com.payhub.ws.api
     [DataContract]
     public class LastCaptureResponseInfromation
     {
-        private Object metadata;
         [DataMember(Name = "metaData")]
+        private Object metadata;
+        
         public Object Metadata
         {
             get { return this.metadata.ToString(); }
