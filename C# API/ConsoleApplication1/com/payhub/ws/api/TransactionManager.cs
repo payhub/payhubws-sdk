@@ -459,7 +459,7 @@ namespace PayHubWS.payhub.ws.api
             foreach (BillInformation billInformation in response)
             {                
                 billInformation.TransactionManager = this;
-                billInformation.convertDataToBill(node["_embedded"]["billforsale"][index].ToString());
+                billInformation.bill = JsonConvert.DeserializeObject<Bill>(node["_embedded"]["billforsale"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
                 index++;
             }
             return response;
@@ -478,9 +478,12 @@ namespace PayHubWS.payhub.ws.api
             String result = doGet(request);
             var node = JObject.Parse(result);
             List<BillInformation> response = JsonConvert.DeserializeObject<List<BillInformation>>(node["_embedded"]["billsforrecurringbill"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            int index = 0;
             foreach (BillInformation billInformation in response)
             {
                 billInformation.TransactionManager = this;
+                billInformation.bill = JsonConvert.DeserializeObject<Bill>(node["_embedded"]["billsforrecurringbill"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+                index++;
             }
             return response;
         }
@@ -498,9 +501,12 @@ namespace PayHubWS.payhub.ws.api
             String result = doGet(request);
             var node = JObject.Parse(result);
             List<MerchantInformation> response = JsonConvert.DeserializeObject<List<MerchantInformation>>(node["_embedded"]["merchants"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            int index = 0;
             foreach (MerchantInformation merchantInformation in response)
             {
                 merchantInformation.TransactionManager = this;
+                merchantInformation.merchant = JsonConvert.DeserializeObject<Merchant>(node["_embedded"]["merchants"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+                index++;
             }
             return response;
         }
@@ -518,9 +524,12 @@ namespace PayHubWS.payhub.ws.api
             String result = doGet(request);
             var node = JObject.Parse(result);
             List<CardDataInformation> response = JsonConvert.DeserializeObject<List<CardDataInformation>>(node["_embedded"]["carddata"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            int index = 0;
             foreach (CardDataInformation cardDataInformation in response)
             {
                 cardDataInformation.TransactionManager = this;
+                cardDataInformation.cardData = JsonConvert.DeserializeObject<CardData>(node["_embedded"]["carddata"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+                index++;
             }
             return response;
         }
@@ -538,9 +547,12 @@ namespace PayHubWS.payhub.ws.api
             String result = doGet(request);
             var node = JObject.Parse(result);
             List<CustomerInformation> response = JsonConvert.DeserializeObject<List<CustomerInformation>>(node["_embedded"]["customerforsale"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            int index = 0;
             foreach (CustomerInformation customerInformation in response)
             {
                 customerInformation.TransactionManager = this;
+                customerInformation.customer = JsonConvert.DeserializeObject<Customer>(node["_embedded"]["customerforsale"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+                index++;
             }
             return response;
         }
@@ -558,9 +570,12 @@ namespace PayHubWS.payhub.ws.api
             String result = doGet(request);
             var node = JObject.Parse(result);
             List<CustomerInformation> response = JsonConvert.DeserializeObject<List<CustomerInformation>>(node["_embedded"]["customers"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            int index = 0;
             foreach (CustomerInformation customerInformation in response)
             {
                 customerInformation.TransactionManager = this;
+                customerInformation.customer = JsonConvert.DeserializeObject<Customer>(node["_embedded"]["customers"][index].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+                index++;
             }
             return response;
         }

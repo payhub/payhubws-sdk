@@ -21,6 +21,11 @@ namespace PayHubWS.Samples
 		    TransactionManager transaction = new TransactionManager(url, oauth, merchant);
           //  var b = transaction.getAuthorizationInformation("182349");
             var a = transaction.getAllBillForSaleInformation();
+            var b = transaction.getAllBillForRecurringBillInformation();
+            var c = transaction.getAllCardDataInformation();
+            var d = transaction.getAllCustomerForRecurringBillInformation();
+            var e = transaction.getAllCustomerForSalesInformation();
+            var f = transaction.getAllMerchantInformation();
 	        string datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
             transaction.addMetaData(datos, TransactionType.AuthOnly, "182525");
 	    }

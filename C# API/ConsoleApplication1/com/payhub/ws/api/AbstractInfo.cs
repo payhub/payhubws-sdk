@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 namespace PayHubWS.com.payhub.ws.api
 {
     [DataContract]
+    [KnownType(typeof(MerchantInformation))]
+    [KnownType(typeof(CardDataInformation))]
     public abstract class AbstractInfo
     {
     protected string _version;

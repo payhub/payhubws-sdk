@@ -10,7 +10,7 @@ namespace PayHubWS.com.payhub.ws.api
 {
     public class MerchantInformation : AbstractInfo
     {
-        Merchant merchant;
+        public Merchant merchant;
         
         public MerchantInformation(): base()
         {

@@ -10,7 +10,7 @@ namespace PayHubWS.com.payhub.ws.api
 {
     public class CardDataInformation:AbstractInfo
     {
-        CardData cardData;
+        public CardData cardData;
 
         public CardDataInformation(): base()
         {

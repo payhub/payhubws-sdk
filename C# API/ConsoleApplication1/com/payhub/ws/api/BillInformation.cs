@@ -47,7 +47,7 @@ namespace PayHubWS.com.payhub.ws.api
             this.transactionManager = t;
             this.transactionType = TransactionType.Bill;
         }
-        public void convertData(String json)
+        private void convertData(String json)
         {
             // read from file, convert it to user class
             var node = JObject.Parse(json);
@@ -59,7 +59,7 @@ namespace PayHubWS.com.payhub.ws.api
             this.metaData = (string)node["metaData"];
         }
 
-        public void convertDataToBill(String json){
+        private void convertDataToBill(String json){
             bill = JsonConvert.DeserializeObject<Bill>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 	    }
 
