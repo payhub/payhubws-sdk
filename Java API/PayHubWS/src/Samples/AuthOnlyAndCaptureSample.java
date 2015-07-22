@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.payhub.ws.api.AuthorizationResponseInformation;
-import com.payhub.ws.api.LastCaptureResponseInformation;
+import com.payhub.ws.api.CaptureResponseInformation;
 import com.payhub.ws.api.TransactionType;
 import com.payhub.ws.api.SaleResponseInformation;
 import com.payhub.ws.api.TransactionManager;

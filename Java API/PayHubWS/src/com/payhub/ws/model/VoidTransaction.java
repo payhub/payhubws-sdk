@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.payhub.ws.api.LastVoidResponseInformation;
+import com.payhub.ws.api.VoidResponseInformation;
 import com.payhub.ws.util.WsConnections;
 
 /**
@@ -69,10 +69,10 @@ public class VoidTransaction extends WsConnections{
         this.transaction_id = saleId;
     }
 
-    public LastVoidResponseInformation performVoidTransaction(String json, HttpURLConnection request)
+    public VoidResponseInformation performVoidTransaction(String json, HttpURLConnection request)
     {
     	DataOutputStream wr;
-    	LastVoidResponseInformation responseObject = new LastVoidResponseInformation(); 
+    	VoidResponseInformation responseObject = new VoidResponseInformation(); 
 		try {
 			wr = new DataOutputStream(request.getOutputStream());
 			wr.writeBytes(json);
@@ -83,7 +83,7 @@ public class VoidTransaction extends WsConnections{
 	        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 	    	try {	    
 	    		// read from file, convert it to user class
-	    		responseObject = mapper.readValue(result, LastVoidResponseInformation.class);
+	    		responseObject = mapper.readValue(result, VoidResponseInformation.class);
 	    		responseObject.setRowData(result);
 	     
 	    	} catch (JsonGenerationException e) {
@@ -103,7 +103,7 @@ public class VoidTransaction extends WsConnections{
 					in1.close();
 					ObjectMapper mapper = new ObjectMapper();
 			        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			        responseObject = mapper.readValue(response1.toString(), LastVoidResponseInformation.class);
+			        responseObject = mapper.readValue(response1.toString(), VoidResponseInformation.class);
 					responseObject.setRowData(response1.toString());
 				 	
 			} catch (IOException e) {

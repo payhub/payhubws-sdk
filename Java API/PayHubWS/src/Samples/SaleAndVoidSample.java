@@ -10,7 +10,7 @@ import java.util.List;
 import com.payhub.ws.api.BillInformation;
 import com.payhub.ws.api.CardDataInformation;
 import com.payhub.ws.api.CustomerInformation;
-import com.payhub.ws.api.LastVoidResponseInformation;
+import com.payhub.ws.api.VoidResponseInformation;
 import com.payhub.ws.api.MerchantInformation;
 import com.payhub.ws.api.SaleResponseInformation;
 import com.payhub.ws.api.TransactionManager;
@@ -72,7 +72,7 @@ public class SaleAndVoidSample {
         System.out.println(response.getRowData());
         String saleId = response.getSaleResponse().getSaleId();
         VoidTransaction voidTransaction = new VoidTransaction(merchant, saleId);
-        LastVoidResponseInformation voidInfo = transaction.doVoid(voidTransaction);            
+        VoidResponseInformation voidInfo = transaction.doVoid(voidTransaction);            
         System.out.println(voidInfo.getRowData());
 
         
@@ -87,6 +87,13 @@ public class SaleAndVoidSample {
          merchant.terminal_id = 215;
 
          TransactionManager transaction = new TransactionManager(url, oauth, merchant);
+         List<BillInformation> bills = transaction.getAllBillForSalesInformation();
+         List<BillInformation> bills2 = transaction.getAllBillForRecurringBillInformation();
+         List<CustomerInformation> custom = transaction.getAllCustomerForRecurringBillInformation();
+         List<CustomerInformation> custome = transaction.getAllCustomerForSalesInformation();
+         List<MerchantInformation> m= transaction.getAllMerchantInformation();
+         List<CardDataInformation> carddata = transaction.getAllCardDataInformation();
+         
          //List<SaleResponseInformation> s = transaction.getAllSalesInformation();
          SaleResponseInformation response = transaction.getSaleInformation("182347");
          BillInformation b = response.getBillInformation();

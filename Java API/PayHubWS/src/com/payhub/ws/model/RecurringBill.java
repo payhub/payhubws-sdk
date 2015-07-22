@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payhub.ws.api.AuthorizationResponseInformation;
-import com.payhub.ws.api.RecurringBillingInformation;
+import com.payhub.ws.api.RecurringBillResponseInformation;
 import com.payhub.ws.util.WsConnections;
 
 /**
@@ -99,9 +99,9 @@ public class RecurringBill extends WsConnections{
         this.bill = bill;
     }
 
-    public RecurringBillingInformation PerformRecurringBill(String json, HttpURLConnection request)
+    public RecurringBillResponseInformation PerformRecurringBill(String json, HttpURLConnection request)
     {
-    	RecurringBillingInformation responseObject = new RecurringBillingInformation();
+    	RecurringBillResponseInformation responseObject = new RecurringBillResponseInformation();
     	DataOutputStream wr;
 		
 		try {
@@ -114,7 +114,7 @@ public class RecurringBill extends WsConnections{
 	        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 	    	try {	    
 	    		// read from file, convert it to user class
-	    		responseObject = mapper.readValue(result, RecurringBillingInformation.class);
+	    		responseObject = mapper.readValue(result, RecurringBillResponseInformation.class);
 	    		responseObject.setRowData(result);
 	     
 	    	} catch (JsonGenerationException e) {
@@ -134,7 +134,7 @@ public class RecurringBill extends WsConnections{
 					in1.close();
 					ObjectMapper mapper = new ObjectMapper();
 			        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			        responseObject = mapper.readValue(response1.toString(), RecurringBillingInformation.class);
+			        responseObject = mapper.readValue(response1.toString(), RecurringBillResponseInformation.class);
 					responseObject.setRowData(response1.toString());
 				 	
 			} catch (IOException e) {

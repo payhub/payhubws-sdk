@@ -188,9 +188,9 @@ public class TransactionManager extends WsConnections{
      *
      * @param capture object.
      * @return a LastCaptureResponseInformation object. 
-     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     * @see {@link com.payhub.ws.api.CaptureResponseInformation}; 
      */
-    public LastCaptureResponseInformation doCapture(Capture capture) throws IOException
+    public CaptureResponseInformation doCapture(Capture capture) throws IOException
     {
         capture.setMerchant(this._merchant);
         capture.setUrl(this._url);
@@ -198,7 +198,7 @@ public class TransactionManager extends WsConnections{
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         String json = mapper.writeValueAsString(capture);
-        LastCaptureResponseInformation response = capture.captureData(json, request);
+        CaptureResponseInformation response = capture.captureData(json, request);
         response.setTransactionManager(this);
         return response;
     }
@@ -207,20 +207,20 @@ public class TransactionManager extends WsConnections{
      *
      * @param String captureId: the ID of a particular Capture.
      * @return a LastCaptureResponseInformation object. 
-     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     * @see {@link com.payhub.ws.api.CaptureResponseInformation}; 
      */
-    public LastCaptureResponseInformation getCaptureInformation(String captureId) throws IOException
+    public CaptureResponseInformation getCaptureInformation(String captureId) throws IOException
     {
     	if(captureId.equals("")|| captureId==null){
     		return null;
     	}
-    	LastCaptureResponseInformation response = new LastCaptureResponseInformation();
+    	CaptureResponseInformation response = new CaptureResponseInformation();
         String url = _url + Capture.CAPTURE_ID_LINK+ captureId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        response =  mapper.readValue(result, LastCaptureResponseInformation.class);
+        response =  mapper.readValue(result, CaptureResponseInformation.class);
         response.setRowData(result);
         response.setTransactionManager(this);
         return response;   
@@ -230,9 +230,9 @@ public class TransactionManager extends WsConnections{
      * Perform a new query that retrieves you the list of Captures Information.
      *
      * @return an LastCaptureResponseInformation list object. 
-     * @see {@link com.payhub.ws.api.LastCaptureResponseInformation}; 
+     * @see {@link com.payhub.ws.api.CaptureResponseInformation}; 
      */
-    public List<LastCaptureResponseInformation> getAllCaptureInformation() throws IOException
+    public List<CaptureResponseInformation> getAllCaptureInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
         String url = _url + Capture.CAPTURE_ID_LINK;
@@ -241,8 +241,8 @@ public class TransactionManager extends WsConnections{
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
-        List<LastCaptureResponseInformation> response =  mapper.readValue(node.get("_embedded").get("captures").toString(), new TypeReference<List<LastCaptureResponseInformation>>(){});
-        for (LastCaptureResponseInformation lastCaptureResponseInformation : response) {
+        List<CaptureResponseInformation> response =  mapper.readValue(node.get("_embedded").get("captures").toString(), new TypeReference<List<CaptureResponseInformation>>(){});
+        for (CaptureResponseInformation lastCaptureResponseInformation : response) {
         	lastCaptureResponseInformation.setTransactionManager(this);
 		}
         return  response;
@@ -252,16 +252,16 @@ public class TransactionManager extends WsConnections{
      *
      * @param VoidTransaction object.
      * @return a LastVoidResponseInformation object.
-     * @see {@link com.payhub.ws.api.LastVoidResponseInformation};  
+     * @see {@link com.payhub.ws.api.VoidResponseInformation};  
      */
-    public LastVoidResponseInformation doVoid(VoidTransaction voidData) throws IOException
+    public VoidResponseInformation doVoid(VoidTransaction voidData) throws IOException
     {
     	voidData.setMerchant(this._merchant);
     	voidData.setUrl(this._url);
         HttpURLConnection request = setHeadersPost(voidData.getUrl(), this.getToken());
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(voidData);
-        LastVoidResponseInformation response = voidData.performVoidTransaction(json, request);
+        VoidResponseInformation response = voidData.performVoidTransaction(json, request);
         response.setTransactionManager(this);
         return response;
     }
@@ -270,20 +270,20 @@ public class TransactionManager extends WsConnections{
      *
      * @param String voidId: the ID of a particular Void Transaction.
      * @return a LastVoidResponseInformation object. 
-     * @see {@link com.payhub.ws.api.LastVoidResponseInformation}; 
+     * @see {@link com.payhub.ws.api.VoidResponseInformation}; 
      */
-    public LastVoidResponseInformation getVoidInformation(String voidId) throws IOException
+    public VoidResponseInformation getVoidInformation(String voidId) throws IOException
     {
     	if(voidId.equals("")|| voidId==null){
     		return null;
     	}
-        LastVoidResponseInformation response = new LastVoidResponseInformation();
+        VoidResponseInformation response = new VoidResponseInformation();
         String url = _url + VoidTransaction.VOID_ID_LINK+ voidId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        response =  mapper.readValue(result, LastVoidResponseInformation.class);
+        response =  mapper.readValue(result, VoidResponseInformation.class);
         response.setRowData(result);
         response.setTransactionManager(this);
         return response;    
@@ -292,9 +292,9 @@ public class TransactionManager extends WsConnections{
      * Perform a new query that retrieves you the list of Voids Information.
      *
      * @return an LastVoidResponseInformation list object. 
-     * @see {@link com.payhub.ws.api.LastVoidResponseInformation}; 
+     * @see {@link com.payhub.ws.api.VoidResponseInformation}; 
      */
-    public List<LastVoidResponseInformation> getAllVoidInformation() throws IOException
+    public List<VoidResponseInformation> getAllVoidInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
         String url = _url + VoidTransaction.VOID_ID_LINK;
@@ -303,8 +303,8 @@ public class TransactionManager extends WsConnections{
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
-        List<LastVoidResponseInformation> response =  mapper.readValue(node.get("_embedded").get("voids").toString(), new TypeReference<List<LastVoidResponseInformation>>(){});
-        for (LastVoidResponseInformation lastVoidResponseInformation : response) {
+        List<VoidResponseInformation> response =  mapper.readValue(node.get("_embedded").get("voids").toString(), new TypeReference<List<VoidResponseInformation>>(){});
+        for (VoidResponseInformation lastVoidResponseInformation : response) {
         	lastVoidResponseInformation.setTransactionManager(this);
 		}
         return  response;
@@ -582,16 +582,16 @@ public class TransactionManager extends WsConnections{
      *
      * @param RecurringBill object.
      * @return a RecurringBillingInformation object. 
-     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     * @see {@link com.payhub.ws.api.RecurringBillResponseInformation};
      */
-    public RecurringBillingInformation doRecurringBill(RecurringBill recurringBill) throws IOException
+    public RecurringBillResponseInformation doRecurringBill(RecurringBill recurringBill) throws IOException
     {
 	   	recurringBill.setMerchant(this._merchant);
 	   	recurringBill.setUrl(this._url);
    		HttpURLConnection request = setHeadersPost(recurringBill.getUrl(), this.getToken());
    		ObjectMapper mapper = new ObjectMapper();
    		String json = mapper.writeValueAsString(recurringBill);
-   		RecurringBillingInformation response = recurringBill.PerformRecurringBill(json, request);
+   		RecurringBillResponseInformation response = recurringBill.PerformRecurringBill(json, request);
    		response.setTransactionManager(this);
    		return response;
     }
@@ -600,20 +600,20 @@ public class TransactionManager extends WsConnections{
      *
      * @param String recurringBillId: the ID of a particular Recurring Bill Transaction.
      * @return a RecurringBillingInformation object. 
-     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     * @see {@link com.payhub.ws.api.RecurringBillResponseInformation};
      */
-    public RecurringBillingInformation getRecurringBillInformation(String recurringBillId) throws IOException
+    public RecurringBillResponseInformation getRecurringBillInformation(String recurringBillId) throws IOException
     {
     	if(recurringBillId.equals("")|| recurringBillId==null){
     		return null;
     	}
-    	RecurringBillingInformation response = new RecurringBillingInformation();
+    	RecurringBillResponseInformation response = new RecurringBillResponseInformation();
         String url = _url + RecurringBill.RECURRENT_BILL_ID_LINK+ recurringBillId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response =  mapper.readValue(result, RecurringBillResponseInformation.class);
         response.setRowData(result);
         response.setTransactionManager(this);
         return response;  
@@ -624,20 +624,20 @@ public class TransactionManager extends WsConnections{
      *
      * @param String customerId: the ID of a particular Merchant Organization.
      * @return a RecurringBillingInformation object. 
-     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     * @see {@link com.payhub.ws.api.RecurringBillResponseInformation};
      */
-    public RecurringBillingInformation findRecurringBillInformationByMerchantOrganization(String merchantId) throws IOException
+    public RecurringBillResponseInformation findRecurringBillInformationByMerchantOrganization(String merchantId) throws IOException
     {
     	if(merchantId.equals("")|| merchantId==null){
     		return null;
     	}
-    	RecurringBillingInformation response = new RecurringBillingInformation();
+    	RecurringBillResponseInformation response = new RecurringBillResponseInformation();
         String url = _url + "recurring-bill/search/findByMerchantOrganizationId?organizationId="+ merchantId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response =  mapper.readValue(result, RecurringBillResponseInformation.class);
         response.setRowData(result);
         response.setTransactionManager(this);
         return response;  
@@ -649,20 +649,20 @@ public class TransactionManager extends WsConnections{
      *
      * @param String customerId: the ID of a particular Customer.
      * @return a RecurringBillingInformation object. 
-     * @see {@link com.payhub.ws.api.RecurringBillingInformation};
+     * @see {@link com.payhub.ws.api.RecurringBillResponseInformation};
      */
-    public RecurringBillingInformation findRecurringBillInformationByCustomer(String customerId) throws IOException
+    public RecurringBillResponseInformation findRecurringBillInformationByCustomer(String customerId) throws IOException
     {
     	if(customerId.equals("")|| customerId==null){
     		return null;
     	}
-    	RecurringBillingInformation response = new RecurringBillingInformation();
+    	RecurringBillResponseInformation response = new RecurringBillResponseInformation();
         String url = _url + "recurring-bill/search/findByCustomerRef?customerId="+ customerId;
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        response =  mapper.readValue(result, RecurringBillingInformation.class);
+        response =  mapper.readValue(result, RecurringBillResponseInformation.class);
         response.setRowData(result);
         response.setTransactionManager(this);
         return response;  

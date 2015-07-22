@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)  
-public class RecurringBillingInformation {
+public class RecurringBillResponseInformation {
 	private Merchant merchant;
 	private Customer customer;
 	private CardData card_data;

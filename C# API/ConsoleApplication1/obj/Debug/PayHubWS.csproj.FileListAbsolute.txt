@@ -28,3 +28,4 @@ C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Deb
 C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
 C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Debug\PayHubWS.exe
 C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Debug\PayHubWS.pdb
+C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Debug\PayHubWS.csprojResolveAssemblyReference.cache

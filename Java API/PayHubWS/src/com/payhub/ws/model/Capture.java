@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.payhub.ws.api.LastCaptureResponseInformation;
-import com.payhub.ws.api.LastCaptureResponseInformation;
+import com.payhub.ws.api.CaptureResponseInformation;
+import com.payhub.ws.api.CaptureResponseInformation;
 import com.payhub.ws.util.WsConnections;
 
 /**
@@ -76,10 +76,10 @@ public class Capture extends WsConnections{
 	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
-	public LastCaptureResponseInformation captureData(String json, HttpURLConnection request)
+	public CaptureResponseInformation captureData(String json, HttpURLConnection request)
     {
 		DataOutputStream wr;
-		LastCaptureResponseInformation responseObject = new LastCaptureResponseInformation(); 
+		CaptureResponseInformation responseObject = new CaptureResponseInformation(); 
 		try {
 			wr = new DataOutputStream(request.getOutputStream());
 			wr.writeBytes(json);
@@ -90,7 +90,7 @@ public class Capture extends WsConnections{
 	        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 	    	try {	    
 	    		// read from file, convert it to user class
-	    		responseObject = mapper.readValue(result, LastCaptureResponseInformation.class);
+	    		responseObject = mapper.readValue(result, CaptureResponseInformation.class);
 	    		responseObject.setRowData(result);
 	     
 	    	} catch (JsonGenerationException e) {
@@ -110,7 +110,7 @@ public class Capture extends WsConnections{
 					in1.close();
 					ObjectMapper mapper = new ObjectMapper();
 			        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			        responseObject = mapper.readValue(response1.toString(), LastCaptureResponseInformation.class);
+			        responseObject = mapper.readValue(response1.toString(), CaptureResponseInformation.class);
 					responseObject.setRowData(response1.toString());
 				 	
 			} catch (IOException e) {

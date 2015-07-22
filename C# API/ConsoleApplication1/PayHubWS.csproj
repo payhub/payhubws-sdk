@@ -61,13 +61,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="com\payhub\ws\api\AbstractInfo.cs" />
     <Compile Include="com\payhub\ws\api\AuthorizationResponseInformation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="com\payhub\ws\api\BillInformation.cs" />
+    <Compile Include="com\payhub\ws\api\CardDataInformation.cs" />
+    <Compile Include="com\payhub\ws\api\CustomerInformation.cs" />
     <Compile Include="com\payhub\ws\api\Errors.cs" />
     <Compile Include="com\payhub\ws\api\LastCaptureResponseInfromation.cs" />
     <Compile Include="com\payhub\ws\api\LastVoidResponseInformation.cs" />
-    <Compile Include="com\payhub\ws\api\OperationType.cs" />
+    <Compile Include="com\payhub\ws\api\MerchantInformation.cs" />
+    <Compile Include="com\payhub\ws\api\ScheduleInformation.cs" />
+    <Compile Include="com\payhub\ws\api\TransactionReportInformation.cs" />
+    <Compile Include="com\payhub\ws\api\TransactionType.cs" />
     <Compile Include="com\payhub\ws\api\RecurringBillInformation.cs" />
     <Compile Include="com\payhub\ws\api\RefundInformation.cs" />
     <Compile Include="com\payhub\ws\api\VerifyResponseInformation.cs" />
@@ -76,13 +83,9 @@
     <Compile Include="com\payhub\ws\model\Capture.cs" />
     <Compile Include="com\payhub\ws\model\CaptureResponse.cs" />
     <Compile Include="com\payhub\ws\model\CustomerPhones.cs" />
-    <Compile Include="com\payhub\ws\model\Metadata.cs" />
     <Compile Include="com\payhub\ws\api\SaleResponseInformation.cs" />
     <Compile Include="com\payhub\ws\api\TransactionManager.cs" />
-    <Compile Include="com\payhub\ws\model\AbstractBill.cs" />
     <Compile Include="com\payhub\ws\model\Bill.cs" />
-    <Compile Include="com\payhub\ws\model\BillForRecurringBill.cs" />
-    <Compile Include="com\payhub\ws\model\BillForSale.cs" />
     <Compile Include="com\payhub\ws\model\BillingReferences.cs" />
     <Compile Include="com\payhub\ws\model\CardData.cs" />
     <Compile Include="com\payhub\ws\model\Customer.cs" />
@@ -100,9 +103,11 @@
     <Compile Include="com\payhub\ws\model\SaleResponse.cs" />
     <Compile Include="com\payhub\ws\model\Schedule.cs" />
     <Compile Include="com\payhub\ws\model\ScheduleSartAndEnd.cs" />
+    <Compile Include="com\payhub\ws\model\Status.cs" />
     <Compile Include="com\payhub\ws\model\TransactionAmount.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="com\payhub\ws\model\TransactionSearchParameters.cs" />
     <Compile Include="com\payhub\ws\model\Verify.cs" />
     <Compile Include="com\payhub\ws\model\VerifyResponse.cs" />
     <Compile Include="com\payhub\ws\model\VoidTransaction.cs" />

@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.payhub.ws.api.RecurringBillingInformation;
+import com.payhub.ws.api.RecurringBillResponseInformation;
 import com.payhub.ws.api.TransactionManager;
 import com.payhub.ws.model.Bill;
 import com.payhub.ws.model.CardData;
@@ -64,7 +64,7 @@ public class RecurringBillingSample {
         RecurringBill recurringBill = new RecurringBill(merchant,card_data,customer,schedule,bill);
         
         TransactionManager transaction = new TransactionManager(url, oauth, merchant);
-        RecurringBillingInformation response = transaction.doRecurringBill(recurringBill);
+        RecurringBillResponseInformation response = transaction.doRecurringBill(recurringBill);
         System.out.println(response.rowData);
     }
 }
