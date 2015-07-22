@@ -21,7 +21,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.payhub.ws.model.AuthOnly;
+import com.payhub.ws.model.Bill;
 import com.payhub.ws.model.Capture;
+import com.payhub.ws.model.CardData;
+import com.payhub.ws.model.Customer;
 import com.payhub.ws.model.Merchant;
 import com.payhub.ws.model.RecurringBill;
 import com.payhub.ws.model.Refund;
@@ -446,8 +449,11 @@ public class TransactionManager extends WsConnections{
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<BillInformation> response =  mapper.readValue(node.get("_embedded").get("billforsale").toString(), new TypeReference<List<BillInformation>>(){});
+        int i=0;
         for (BillInformation billInformation : response) {
         	billInformation.setTransactionManager(this);
+        	billInformation.setBill(mapper.readValue(node.get("_embedded").get("billforsale").get(i).toString(), Bill.class));
+        	i++;
 		}
         return  response;
     }
@@ -467,8 +473,11 @@ public class TransactionManager extends WsConnections{
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<BillInformation> response =  mapper.readValue(node.get("_embedded").get("billsforrecurringbill").toString(), new TypeReference<List<BillInformation>>(){});
+        int i=0;
         for (BillInformation billInformation : response) {
         	billInformation.setTransactionManager(this);
+        	billInformation.setBill(mapper.readValue(node.get("_embedded").get("billsforrecurringbill").get(i).toString(), Bill.class));
+        	i++;
 		}
         return  response;
     }
@@ -481,15 +490,18 @@ public class TransactionManager extends WsConnections{
     public List<MerchantInformation> getAllMerchantInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
-        String url = _url + "bill-for-sale/";
+        String url = _url + "merchant/";
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<MerchantInformation> response =  mapper.readValue(node.get("_embedded").get("merchants").toString(), new TypeReference<List<MerchantInformation>>(){});
+        int i=0;
         for (MerchantInformation merchantInformation : response) {
         	merchantInformation.setTransactionManager(this);
+        	merchantInformation.setMerchant(mapper.readValue(node.get("_embedded").get("merchants").get(i).toString(), Merchant.class));
+        	i++;
 		}
         return  response;
     }
@@ -502,15 +514,18 @@ public class TransactionManager extends WsConnections{
     public List<CardDataInformation> getAllCardDataInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
-        String url = _url + "bill-for-sale/";
+        String url = _url + "carddata/";
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<CardDataInformation> response =  mapper.readValue(node.get("_embedded").get("carddata").toString(), new TypeReference<List<CardDataInformation>>(){});
+        int i=0;
         for (CardDataInformation cardDataInformation : response) {
         	cardDataInformation.setTransactionManager(this);
+        	cardDataInformation.setCardData(mapper.readValue(node.get("_embedded").get("carddata").get(i).toString(), CardData.class));
+        	i++;
 		}
         return  response;
     }
@@ -523,15 +538,18 @@ public class TransactionManager extends WsConnections{
     public List<CustomerInformation> getAllCustomerForSalesInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
-        String url = _url + "bill-for-sale/";
+        String url = _url + "customer-for-sale/";
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<CustomerInformation> response =  mapper.readValue(node.get("_embedded").get("customerforsale").toString(), new TypeReference<List<CustomerInformation>>(){});
+        int i=0;
         for (CustomerInformation customerInformation : response) {
         	customerInformation.setTransactionManager(this);
+        	customerInformation.setCustomer(mapper.readValue(node.get("_embedded").get("customerforsale").get(i).toString(), Customer.class));
+        	i++;
 		}
         return  response;
     }
@@ -544,15 +562,18 @@ public class TransactionManager extends WsConnections{
     public List<CustomerInformation> getAllCustomerForRecurringBillInformation() throws IOException
     {
     	//List<SaleResponseInformation> response = new ArrayList<SaleResponseInformation>();
-        String url = _url + "bill-for-sale/";
+        String url = _url + "customer/";
         HttpURLConnection request = setHeadersGet(url, this._oauthToken);
         String result = doGet(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         ObjectNode node = mapper.readValue(result,ObjectNode.class);
         List<CustomerInformation> response =  mapper.readValue(node.get("_embedded").get("customers").toString(), new TypeReference<List<CustomerInformation>>(){});
+        int i=0;
         for (CustomerInformation customerInformation : response) {
         	customerInformation.setTransactionManager(this);
+        	customerInformation.setCustomer(mapper.readValue(node.get("_embedded").get("customers").get(i).toString(), Customer.class));
+        	i++;
 		}
         return  response;
     }

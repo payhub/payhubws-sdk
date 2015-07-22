@@ -168,7 +168,7 @@ public class BillInformation{
 		return bill;
 	}
 
-	private void setBill(Bill bill) {
+	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
 
