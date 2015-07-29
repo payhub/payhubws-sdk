@@ -51,7 +51,10 @@ $authorization = new AuthOnly($merchant,$bill,$card_data,$customer);
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
 //$result = $transaction->doAuthonly($authorization);
 //$transactionId = $result->getAuthOnlyResponse()->getTransactionId();
-//var_dump($result);
+
 //$capture = new Capture($merchant,$transactionId,$bill);
 $responseCapture= $transaction->getCaptureInformation("182357");
-var_dump($responseCapture);
+$bill=$responseCapture->getBillInformation();
+$merchant=$responseCapture->getMerchantInformation();
+var_dump($bill);
+var_dump($merchant);

@@ -15,6 +15,8 @@ class CardDataInformation extends AbstractInfo
         if(!is_null($transactionManager)) {
             $this->transactionManager = $transactionManager;
         }
+        $this->transactionType=TransactionType::CardData;
+
     }
     public function convertData($json)
     {

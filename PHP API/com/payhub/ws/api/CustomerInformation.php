@@ -20,6 +20,19 @@ class CustomerInformation
     private $customer;
 
     /**
+     * CustomerInformation constructor.
+     * @param $transactionType
+     */
+    public function __construct($transactionManager)
+    {
+        if(!is_null($transactionManager)) {
+            $this->transactionManager = $transactionManager;
+        }
+        $this->transactionType=TransactionType::Customer;
+
+    }
+
+    /**
      * @return mixed
      */
     public function getTransactionManager()
@@ -107,29 +120,29 @@ class CustomerInformation
         $url = $this->getUrl().$id."/customer";
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToCustomer($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToCustomer(json_encode($json));
     }
     public function getCustomerForSaleInformationById($id){
         $url = $this->transactionManager->getUrl()."customer-for-sale/".$id;
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToCustomer($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToCustomer(json_encode($json));
     }
     public function getCustomerForRecurringCustomerInformationByTransactionId($id){
         $url = $this->getUrl().$id."/customer";
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToCustomer($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToCustomer(json_encode($json));
     }
     public function getCustomerForRecurringCustomerInformationById($id){
         $url = $this->transactionManager->getUrl()."customer/".$id;
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToCustomer($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToCustomer(json_encode($json));
     }
     public static function fromJson($data){
         if(!is_null($data)) {

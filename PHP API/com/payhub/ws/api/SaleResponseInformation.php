@@ -114,7 +114,7 @@ class SaleResponseInformation
     {
         if($this->billInformation==null){
             $b = new BillInformation($this->transactionManager);
-			$b->setUrl($this->transactionManager->getUrl()+"sale/");
+			$b->setUrl($this->transactionManager->getUrl()."sale/");
 			$b->getBillForSaleInformationByTransactionId($this->saleResponse->getSaleId());
             $this->billInformation=$b;
 		}
@@ -139,9 +139,9 @@ class SaleResponseInformation
     {
         if($this->customerInformation==null){
             $c = new CustomerInformation($this->transactionManager);
-            $c->setUrl($this->transactionManager->getUrl()+"sale/");
+            $c->setUrl($this->transactionManager->getUrl()."sale/");
 			$c->getCustomerForSaleInformationByTransactionId($this->saleResponse->getSaleId());
-			$this->customerInformation=c;
+			$this->customerInformation=$c;
         }
         return $this->customerInformation;
     }

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: agustin
- * Date: 28/07/2015
- * Time: 17:40
+ * Date: 29/07/2015
+ * Time: 11:16
  */
 include_once '../com/payhub/ws/extra/includeClasses.php';
 //Defining the Web Service URL
@@ -16,7 +16,8 @@ $merchant = new Merchant();
 $merchant->setOrganizationId(10127);
 $merchant->setTerminalId(215);
 
+
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
-$datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}";
-$result=$transaction->addMetaData($datos, TransactionType::Sale, "182772");
-var_dump($result);
+$response = $transaction->getRecurringBillInformation("1186");
+var_dump($response->getScheduleInformation());
+

@@ -9,7 +9,17 @@
 class ScheduleInformation extends AbstractInfo
 {
     private $schedule;
-
+    /**
+     * RefundInformation constructor.
+     * @param $transactionManager
+     */
+    public function __construct($transactionManager)
+    {
+        if(!is_null($transactionManager)) {
+            $this->transactionManager = $transactionManager;
+        }
+        $this->transactionType=TransactionType::Schedule;
+    }
     /**
      * @return mixed
      */
@@ -29,8 +39,7 @@ class ScheduleInformation extends AbstractInfo
     public function convertData($json)
     {
         $data = json_decode($json, true);
-        $this->schedule = new Schedule();
-        foreach ($data as $key => $value) $this->schedule->{$key} = $value;
+        $this->schedule = Schedule::fromArray($data);
     }
 
     public function getUrlForTransactionType($type)

@@ -20,6 +20,19 @@ class BillInformation
     private $bill;
 
     /**
+     * BillInformation constructor.
+     * @param $transactionManager
+     */
+    public function __construct($transactionManager)
+    {
+        if(!is_null($transactionManager)) {
+            $this->transactionManager = $transactionManager;
+        }
+        $this->transactionType=TransactionType::Bill;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getBill()
@@ -101,29 +114,29 @@ class BillInformation
         $url = $this->getUrl().$id."/bill";
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToBill($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToBill(json_encode($json));
     }
     public function getBillForSaleInformationById($id){
         $url = $this->transactionManager->getUrl()."bill-for-sale/".$id;
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToBill($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToBill(json_encode($json));
 	}
 	public function getBillForRecurringBillInformationByTransactionId($id){
         $url = $this->getUrl().$id."/bill";
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToBill($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToBill(json_encode($json));
 	}
 	public function getBillForRecurringBillInformationById($id){
         $url = $this->transactionManager->getUrl()."bill-for-recurring-bill/".$id;
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertDataToBill($json);
+        $this->convertData(json_encode($json));
+        $this->convertDataToBill(json_encode($json));
 	}
     public static function fromJson($data){
         if(!is_null($data)) {

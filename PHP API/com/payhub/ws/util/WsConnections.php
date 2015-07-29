@@ -80,6 +80,8 @@ class WsConnections
 
     public function setHeadersPut($WsURL,$token)
     {
+        echo $WsURL;
+
         $this->token=$token;
         $request = curl_init();
         curl_setopt($request, CURLOPT_URL, $WsURL);
@@ -90,7 +92,8 @@ class WsConnections
                 'Authorization: Bearer '. $this->token)
         );
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($request, CURLOPT_HEADER, true);
+        curl_setopt($request, CURLOPT_HEADER, 1);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, 0);
 
         return $request;
     }
@@ -134,8 +137,19 @@ class WsConnections
             return $data;
         }
     }
+    public function doPut($request,$json){
+        echo $json;
+        curl_setopt($request, CURLOPT_POSTFIELDS, $json);
+        $response = curl_exec($request);
+        $p = strpos($response, "\r\n\r\n");
+        if( $p !== false ) {
+            $rawBody = substr($response, $p + 4);
+        }
+        $data = json_decode($rawBody, true);
+        return $data;
+    }
     public function findTransactionReports($request,$json){
-        //$json=preg_replace('/,\s*"[^"]+":null|"[^"]+":null,?/', '', $json);
+        $json=preg_replace('/,\s*"[^"]+":null|"[^"]+":null,?/', '', $json);
         curl_setopt($request, CURLOPT_POSTFIELDS, $json);
         $response = curl_exec($request);
         $httpcode = curl_getinfo($request, CURLINFO_HTTP_CODE);

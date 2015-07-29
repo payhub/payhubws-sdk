@@ -333,6 +333,7 @@ class TransactionReportInformation
     }
     public static function fromArray($data){
         if(!is_null($data)) {
+            $err=null;
             $tri = new TransactionReportInformation();
             foreach ($data as $key => $value) {
                 if (property_exists(get_class($tri), $key)) {

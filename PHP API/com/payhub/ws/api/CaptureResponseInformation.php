@@ -113,7 +113,7 @@ class CaptureResponseInformation
         if($this->billInformation==null){
             $b = new BillInformation($this->transactionManager);
 			$b->setUrl($this->transactionManager->getUrl()."capture/");
-			$b->getBillForRecurringBillInformationById($this->lastCaptureResponse->getTransactionId());
+			$b->getBillForSaleInformationByTransactionId($this->lastCaptureResponse->getTransactionId());
 			$this->billInformation=$b;
 		}
         return $this->billInformation;
@@ -126,8 +126,8 @@ class CaptureResponseInformation
     {
         if($this->merchantInformation==null){
             $m = new MerchantInformation($this->transactionManager);
-				$m.getDataByTransaction(TransactionType::Capture, $this->lastCaptureResponse->getTransactionId());
-				$merchantInformation=$m;
+				$m->getDataByTransaction(TransactionType::Capture, $this->lastCaptureResponse->getTransactionId());
+				$this->merchantInformation=$m;
 			}
         return $this->merchantInformation;
     }

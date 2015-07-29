@@ -24,3 +24,4 @@ $tsr->cardLast4Digits="4507";
 
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
 $response = $transaction->findTransactions($tsr);
+var_dump($response);

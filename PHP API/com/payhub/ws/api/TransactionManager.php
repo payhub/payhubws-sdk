@@ -563,4 +563,47 @@ class TransactionManager extends WsConnections
         }
         return $respose;
     }
+
+    /**
+     * @param $datos
+     * @param $type
+     * @param $operationId
+     */
+    public function addMetadata($metadata,$type,$operationId){
+        $metadataUrl=null;
+        if(TransactionType::Sale==$type){
+            $metadataUrl=$this->_url."metadata/forSale/".$operationId;
+        }if(TransactionType::AuthOnly==$type){
+            $metadataUrl=$this->_url."metadata/forAuthOnly/".$operationId;
+        }if(TransactionType::Capture==$type){
+            $metadataUrl=$this->_url."metadata/forCapture/".$operationId;
+        }if(TransactionType::Bill==$type){
+            $metadataUrl=$this->_url."metadata/forBill/".$operationId;
+        }if(TransactionType::CardData==$type){
+            $metadataUrl=$this->_url."metadata/forCardData/".$operationId;
+        }if(TransactionType::Customer==$type){
+            $metadataUrl=$this->_url."metadata/forCustomer/".$operationId;
+        }if(TransactionType::Merchant==$type){
+            $metadataUrl=$this->_url."metadata/forMerchant/".$operationId;
+        }if(TransactionType::RecurringBill==$type){
+            $metadataUrl=$this->_url."metadata/forRecurringBill/".$operationId;
+        }if(TransactionType::Schedule==$type){
+            $metadataUrl=$this->_url."metadata/forSchedule/".$operationId;
+        }if(TransactionType::Refund==$type){
+            $metadataUrl=$this->_url."metadata/forRefund/".$operationId;
+        }if(TransactionType::VoidTransaction==$type){
+            $metadataUrl=$this->_url."metadata/forVoid/".$operationId;
+        }
+        $request = $this->setHeadersPut($metadataUrl, $this->_oauthToken);
+        $result = $this->doPut($request,$metadata);
+        if(is_array($result)){
+            foreach ($result as $errorData) {
+                $errors_tmp = Errors::fromArray($errorData);
+            }
+            $errors[]=$errors_tmp;
+            return $errors;
+        }else{
+            return true;
+        }
+    }
 }

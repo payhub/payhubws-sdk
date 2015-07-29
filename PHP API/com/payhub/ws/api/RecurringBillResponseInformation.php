@@ -132,7 +132,7 @@ class RecurringBillResponseInformation
     {
         if($this->cardDataInformation==null){
             $c = new CardDataInformation($this->transactionManager);
-            $c.getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
+            $c->getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
             $this->cardDataInformation=$c;
         }
         return $this->cardDataInformation;
@@ -146,7 +146,7 @@ class RecurringBillResponseInformation
         if($this->customerInformation==null){
             $c = new CustomerInformation($this->transactionManager);
             $c->setUrl($this->transactionManager->getUrl()."recurring-bill/");
-            $c.getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
+            $c->getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
             $this->customerInformation=$c;
         }
         return $this->customerInformation;
@@ -170,7 +170,7 @@ class RecurringBillResponseInformation
     {
         if($this->merchantInformation==null){
             $m = new MerchantInformation($this->transactionManager);
-            $m.getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
+            $m->getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
             $this->merchantInformation=$m;
         }
         return $this->merchantInformation;
@@ -179,13 +179,13 @@ class RecurringBillResponseInformation
     {
         if($this->scheduleInformation==null){
             $s = new ScheduleInformation($this->transactionManager);
-            $s.getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
+            $s->getDataByTransaction(TransactionType::RecurringBill, $this->lastRecurringBillResponse->getRecurringBillId());
             $this->scheduleInformation=$s;
         }
         return $this->scheduleInformation;
     }
     public static function fromArray($data){
-        $recurringBill = new RecurringBillResponse();
+        $recurringBill = new RecurringBillResponseInformation();
 
         foreach ($data as $key => $value){
             if( property_exists( get_class($recurringBill), $key ) ) {

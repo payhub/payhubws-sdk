@@ -8,33 +8,44 @@
  */
 abstract class AbstractInfo
 {
-protected $version;
-protected $createdAt;
-protected $lastModified;
-protected $createdBy;
-protected $lastModifiedBy;
-protected $metaData;
-protected $transactionManager;
-protected $transactionTsype;
+    protected $version;
+    protected $createdAt;
+    protected $lastModified;
+    protected $createdBy;
+    protected $lastModifiedBy;
+    protected $metaData;
+    protected $transactionManager;
+    protected $transactionTsype;
 
+    /**
+     * AbstractInfo constructor.
+     * @param $transactionManager
+     */
+    public function __construct($transactionManager)
+    {
+        if(!is_null($transactionManager)) {
+            $this->transactionManager = $transactionManager;
+        }
+        $this->transactionType=TransactionType::Merchant;
+    }
     public function getDataByID($id){
         $url = $this->transactionManager->getUrl().$this->getUrlForTransactionType($this.transactionType).$id;
         $request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertAbstractData($json);
+        $this->convertData(json_encode($json));
+        $this->convertAbstractData(json_encode($json));
     }
-    public function getDataByTransaction(TransactionType $type,$transactionId){
+    public function getDataByTransaction($type,$transactionId){
         $url=null;
 		if(TransactionType::CardData==$this->transactionType){
-            $url = $this->transactionManager->getUrl()+$this->getUrlForTransactionType($type)+$transactionId."/card_data";
+            $url = $this->transactionManager->getUrl().$this->getUrlForTransactionType($type).$transactionId."/card_data";
         }else{
-            $url = $this->transactionManager->getUrl()+$this->getUrlForTransactionType($type)+$transactionId."/".$this->getUrlForTransactionType($this->transactionType);
+            $url = $this->transactionManager->getUrl().$this->getUrlForTransactionType($type).$transactionId."/".$this->getUrlForTransactionType($this->transactionType);
         }
 		$request = $this->transactionManager->setHeadersGet($url, $this->transactionManager->getToken());
         $json=$this->transactionManager->doGet($request);
-        $this->convertData($json);
-        $this->convertAbstractData($json);
+        $this->convertData(json_encode($json));
+        $this->convertAbstractData(json_encode($json));
 	}
 	public abstract function convertData($json);
 

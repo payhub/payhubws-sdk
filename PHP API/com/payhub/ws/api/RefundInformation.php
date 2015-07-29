@@ -18,6 +18,18 @@ class RefundInformation
     private $merchantInformation;
 
     /**
+     * RefundInformation constructor.
+     * @param $transactionManager
+     */
+    public function __construct($transactionManager)
+    {
+        if(!is_null($transactionManager)) {
+            $this->transactionManager = $transactionManager;
+        }
+        $this->transactionType=TransactionType::Refund;
+    }
+
+    /**
      * @return mixed
      */
     public function getTransactionId()
