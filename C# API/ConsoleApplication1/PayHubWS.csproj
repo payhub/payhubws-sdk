@@ -120,6 +120,7 @@
     <Compile Include="Samples\RecurringBillingSample.cs" />
     <Compile Include="Samples\RefundSample.cs" />
     <Compile Include="Samples\SaleAndVoidSample.cs" />
+    <Compile Include="Samples\TransactionReportSample.cs" />
     <Compile Include="Samples\VerifySample.cs" />
   </ItemGroup>
   <ItemGroup>

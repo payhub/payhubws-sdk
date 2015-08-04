@@ -46,7 +46,7 @@ namespace PayHubWS.com.payhub.ws.api
         private string note;
         [DataMember]
         private string transactionStatus;
-        
+        [DataMember]
         private List<Errors> errors;
 
         public string TransactionID { get { return this.transactionID; } set { this.transactionID = value; } }

@@ -22,8 +22,10 @@ namespace PayHubWS
     {
         static void Main(string[] args)
         {
-            MetadataSample metadata = new MetadataSample();
-            metadata.addMetadata();
+            //MetadataSample metadata = new MetadataSample();
+            //metadata.addMetadata();
+            TransactionReportSample trs = new TransactionReportSample();
+            trs.findReports();
 
            // SaleAndVoidSample sale = new SaleAndVoidSample();
            //// sale.doSale();

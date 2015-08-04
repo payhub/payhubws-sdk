@@ -690,27 +690,32 @@ namespace PayHubWS.payhub.ws.api
             String url = _url + "report/transactionReport";
             HttpWebRequest request = setHeadersPost(url, this._oauthToken);
             string json = JsonConvert.SerializeObject(parameters, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-            {
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
             string result = findTransactionReports(request, json);
-            var node = JObject.Parse(result);
-            List<TransactionReportInformation> response=new List<TransactionReportInformation>();
-            if (node["errors"].ToString() != null)
+            List<TransactionReportInformation> response = new List<TransactionReportInformation>();
+            try
             {
-                
-                List<Errors> errors = JsonConvert.DeserializeObject<List<Errors>>(node["errors"].ToString());
-                TransactionReportInformation t = new TransactionReportInformation();
-                t.Errors=errors;
-                response.Add(t);
+                response = JsonConvert.DeserializeObject<List<TransactionReportInformation>>(result.ToString());
             }
-            else
-            {
-                response =JsonConvert.DeserializeObject<List<TransactionReportInformation>>(node.ToString());
+            catch {
+                try
+                {
+                    var node = JObject.Parse(result);
+                    List<Errors> errors = JsonConvert.DeserializeObject<List<Errors>>(node["errors"].ToString());
+                    TransactionReportInformation t = new TransactionReportInformation();
+                    t.Errors = errors;
+                    response.Add(t);
+                }
+                catch {
+                    List<Errors> errors = new List<Errors>();
+                    Errors error = new Errors();
+                    error.Reason = "Unknown Error";
+                    errors.Add(error);
+                    TransactionReportInformation t = new TransactionReportInformation();
+                    t.Errors = errors;
+                    response.Add(t);
+                }
             }
+            
 
             return response;
         }

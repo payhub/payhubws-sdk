@@ -1,33 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PayHubWS.com.payhub.ws.model
 {
+    [DataContract]
     public class TransactionSearchParameters
     {
+        [DataMember]
         private string batchIdFrom;
+        [DataMember]
         private string batchIdTo;
+        [DataMember]
         private string transactionType;
+        [DataMember]
         private string responseCode;
+        [DataMember]
         private string amountFrom;
+        [DataMember]
         private string amountTo;
+        [DataMember]
         private string firstName;
+        [DataMember]
         private string lastName;
+        [DataMember]
         private string trnDateFrom;
+        [DataMember]
         private string trnDateTo;
+        [DataMember]
         private string cardType;
+        [DataMember]
         private string cardLast4Digits;
+        [DataMember]
         private string cardToken;
+        [DataMember]
         private string authAmountFrom;
+        [DataMember]
         private string authAmountTo;
+        [DataMember]
         private string swiped;
+        [DataMember]
         private string source;
+        [DataMember]
         private string phoneNumber;
+        [DataMember]
         private string email;
+        [DataMember]
         private string note;
+        [DataMember]
         private string transactionStatus;
 
         public string BatchIdFrom { get { return this.batchIdFrom; } set { this.batchIdFrom = value; } }

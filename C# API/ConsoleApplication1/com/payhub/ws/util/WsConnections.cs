@@ -155,28 +155,45 @@ namespace PayHubWS.com.payhub.ws.util
         }
         public string findTransactionReports(HttpWebRequest request, string json)
         {
+            string result = null;
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 streamWriter.Write(json);
                 streamWriter.Flush();
                 streamWriter.Close();
             }
-
-            var response = (HttpWebResponse)request.GetResponse();
-            Console.WriteLine("\nSending 'Put' request to URL");
-            Console.WriteLine("Response Code : " + response.StatusCode);
-            if (HttpStatusCode.OK == response.StatusCode)
+            try
             {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                return reader.ReadToEnd();
-            }
-            else
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
+                var response = (HttpWebResponse)request.GetResponse();
+                Console.WriteLine("\nSending 'Put' request to URL");
+                Console.WriteLine("Response Code : " + response.StatusCode);
+                if (HttpStatusCode.OK == response.StatusCode)
                 {
-                    return reader.ReadToEnd();
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                        result = reader.ReadToEnd();
+                }
+                else
+                {
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        result = reader.ReadToEnd();
+                    }
                 }
             }
+            catch (WebException wex)
+            {
+                if (wex.Response != null)
+                {
+                    using (var errorResponse = (HttpWebResponse)wex.Response)//You return wex.Response instead
+                    {
+                        using (var reader = new StreamReader(errorResponse.GetResponseStream()))
+                        {
+                            result = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 }
