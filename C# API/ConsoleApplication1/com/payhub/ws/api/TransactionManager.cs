@@ -98,11 +98,17 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public SaleResponseInformation getSaleInformation(string saleId)
         {
+            if (saleId == null || saleId.Equals(""))
+                return null;
+
             SaleResponseInformation response = new SaleResponseInformation();
             var url = _url + Sale.SALE_ID_LINK + saleId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
             response = JsonConvert.DeserializeObject<SaleResponseInformation>(result);
+            if (result == null || result.Equals(""))
+                return null;
+
             response.rowData = result;
             response.transactionManager = this;
             return response;
@@ -160,10 +166,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public AuthorizationResponseInformation getAuthorizationInformation(string authorizationId)
         {
+            if (authorizationId == null || authorizationId.Equals(""))
+                return null;
             AuthorizationResponseInformation response = new AuthorizationResponseInformation();
             var url = _url + AuthOnly.AUTH_ID_LINK + authorizationId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<AuthorizationResponseInformation>(result);
             response.rowData = result;
             response.TransactionManager = this;
@@ -223,10 +233,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public LastCaptureResponseInfromation getCaptureInformation(string captureId)
         {
+            if (captureId == null || captureId .Equals(""))
+                return null;
             LastCaptureResponseInfromation response = new LastCaptureResponseInfromation();
             var url = _url + Capture.CAPTURE_ID_LINK + captureId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<LastCaptureResponseInfromation>(result);
             response.rowData = result;
             response.transactionManager = this;
@@ -286,10 +300,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public LastVoidResponseInformation getVoidInformation(string voidId)
         {
+            if (voidId == null || voidId.Equals(""))
+                return null;
             LastVoidResponseInformation response = new LastVoidResponseInformation();
             var url = _url + VoidTransaction.VOID_ID_LINK + voidId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<LastVoidResponseInformation>(result);
             response.rowData = result;
             response.transactionManager = this;
@@ -347,10 +365,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public VerifyResponseInformation getVerifyInformation(string verifyId)
         {
+            if (verifyId == null || verifyId .Equals(""))
+                return null;
             VerifyResponseInformation response = new VerifyResponseInformation();
             var url = _url + Verify.VERIFY_ID_LINK + verifyId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<VerifyResponseInformation>(result);
             response.rowData = result;
             response.transactionManager = this;
@@ -412,10 +434,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public RefundInformation getRefundInformation(string refundId)
         {
+            if (refundId == null || refundId.Equals(""))
+                return null;
             RefundInformation response = new RefundInformation();
             var url = _url + Refund.REFUND_ID_LINK + refundId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<RefundInformation>(result);
             response.rowData = result;
             response.transactionManager = this;
@@ -613,10 +639,14 @@ namespace PayHubWS.payhub.ws.api
         /// </summary> 
         public RecurringBillInformation getRecurringBillInformation(string refundId)
         {
+            if (refundId == null || refundId.Equals(""))
+                return null;
             RecurringBillInformation response = new RecurringBillInformation();
             var url = _url + RecurringBill.RECURRENT_BILL_ID_LINK + refundId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
+            if (result == null || result.Equals(""))
+                return null;
             response = JsonConvert.DeserializeObject<RecurringBillInformation>(result);
             response.rowData = result;
             response.transactionManager = this;
