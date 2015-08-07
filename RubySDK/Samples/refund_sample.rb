@@ -16,4 +16,4 @@ transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #puts transaction.getSaleInformation("182786")
 #response = transaction.doRefund(object)
 response = transaction.getRefundInformation("181332")
-puts response.inspect
+puts response.merchantInformation.inspect

@@ -15,5 +15,5 @@ transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #response = transaction.doSale(object)
 #puts transaction.getSaleInformation("182786")
 #response = transaction.doVoid(object)
-response = transaction.getVoidInformation("182938")
-puts response.inspect
+response = transaction.getVoidInformation("181258")
+puts response.merchantInformation.inspect

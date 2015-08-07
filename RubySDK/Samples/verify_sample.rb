@@ -37,6 +37,6 @@ transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #response = transaction.doSale(object)
 #puts transaction.getSaleInformation("182786")
 #response = transaction.doRefund(object)
-response = transaction.doVerify(object)
-puts response.inspect
+response = transaction.getVerifyInformation("1823645")
+puts response.cardDataInformation.inspect
 

@@ -49,12 +49,16 @@ $customer->setPhoneType("M");
 
 $authorization = new AuthOnly($merchant,$bill,$card_data,$customer);
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
-//$result = $transaction->doAuthonly($authorization);
+$result = $transaction->doAuthonly($authorization);
+
+echo "resultado";
+var_dump($result);
+echo "resultado";
 //$transactionId = $result->getAuthOnlyResponse()->getTransactionId();
 
 //$capture = new Capture($merchant,$transactionId,$bill);
-$responseCapture= $transaction->getCaptureInformation("182357");
-$bill=$responseCapture->getBillInformation();
-$merchant=$responseCapture->getMerchantInformation();
-var_dump($bill);
-var_dump($merchant);
+//$responseCapture= $transaction->getCaptureInformation("182357");
+//$bill=$responseCapture->getBillInformation();
+//$merchant=$responseCapture->getMerchantInformation();
+//var_dump($bill);
+//var_dump($merchant);

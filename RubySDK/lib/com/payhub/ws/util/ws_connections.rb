@@ -79,7 +79,8 @@ class WsConnections
   # @param [Object] request
   # @param [Object] parameters
   def findTransactionReports(http, request, parameters)
-    request.body=parameters #tojson
+    json = parameters.serialize_to_json #tojson
+    request.body=json
     response = http.request(request)
     return response.read_body
   end

@@ -19,5 +19,5 @@ class TransactionType
     const Schedule="forSchedule";
     const Refund="forRefund";
     const VoidTransaction="forVoid";
-    const Verify="forVoid";
+    const Verify="forVerify";
 }

@@ -74,7 +74,7 @@ namespace PayHubWS.Samples
             merchant.terminal_id = 215;
 
             TransactionManager transaction = new TransactionManager(url, oauth, merchant);
-            SaleResponseInformation response = transaction.getSaleInformation("182430");
+            SaleResponseInformation response = transaction.getSaleInformation("18243011");
             Console.Write(response.rowData);
         }
     }

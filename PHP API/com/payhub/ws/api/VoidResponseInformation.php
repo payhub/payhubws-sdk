@@ -144,15 +144,12 @@ class VoidResponseInformation
      */
     public function getMerchantInformation()
     {
+        if($this->merchantInformation==null){
+            $m = new MerchantInformation($this->transactionManager);
+            $m->getDataByTransaction(TransactionType::VoidTransaction, $this->lastVoidResponse->getVoidTransactionId());
+            $this->merchantInformation=$m;
+        }
         return $this->merchantInformation;
-    }
-
-    /**
-     * @param mixed $merchantInformation
-     */
-    public function setMerchantInformation($merchantInformation)
-    {
-        $this->merchantInformation = $merchantInformation;
     }
 
     public static function fromArray($data){

@@ -12,6 +12,55 @@ class VoidResponse
     public $voidTransactionId;
     public $token;
 
+    /**
+     * @return mixed
+     */
+    public function getSaleTransactionId()
+    {
+        return $this->saleTransactionId;
+    }
+
+    /**
+     * @param mixed $saleTransactionId
+     */
+    public function setSaleTransactionId($saleTransactionId)
+    {
+        $this->saleTransactionId = $saleTransactionId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVoidTransactionId()
+    {
+        return $this->voidTransactionId;
+    }
+
+    /**
+     * @param mixed $voidTransactionId
+     */
+    public function setVoidTransactionId($voidTransactionId)
+    {
+        $this->voidTransactionId = $voidTransactionId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+
     public static function fromArray($data){
         if(!is_null($data)) {
             $void = new VoidResponse();

@@ -169,6 +169,9 @@ class RefundInformation
                 if($key=="errors"){
                     $refund->{$key}=Errors::fromArray($value);
                 }
+                if($key=="lastRecurringBillResponse"){
+                    $refund->{$key}=RefundResponse::fromArray($value);
+                }
                 else{
                     $refund->{$key} = $value;
                 }

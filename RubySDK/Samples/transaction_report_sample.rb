@@ -7,6 +7,28 @@ merchant = Merchant.new
 merchant.organization_id=10127
 merchant.terminal_id=215
 
+tsp = TransactionSearchParameters.new
+tsp.amountFrom = "1";
+tsp.amountTo = "1002";
+=begin
+tsp.cardLast4Digits = "4507";
+tsp.batchIdFrom = "1300";
+tsp.batchIdTo = "1320";
+tsp.email = "marrighi";
+tsp.transactionType = "Sale";
+tsp.responseCode = "00";
+tsp.firstName = "First";
+tsp.lastName = "Cont";
+tsp.phoneNumber = "(415) 479 1349";
+tsp.trnDateFrom = "2015-04-01 00:00:00";
+tsp.trnDateTo = "2015-04-30 00:00:00";
+tsp.cardType = "MasterCard";
+tsp.cardToken = "9999000000001853";
+tsp.swiped = "true";
+tsp.source = "3rd Party API";
+=end
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-parameters="{\"amountFrom\": \"1\",  \"amountTo\":\"1002\",  \"cardLast4Digits\": \"4507\",  \"batchIdFrom\":\"1300\",  \"batchIdTo\":\"1320\",  \"email\":\"marrighi\",  \"transactionType\":\"Sale\",  \"responseCode\":\"00\",  \"firstName\":\"First\",  \"lastName\":\"Cont\",  \"phoneNumber\":\"(415) 479 1349\",  \"trnDateFrom\":\"2015-04-01 00:00:00\",  \"trnDateTo\":\"2015-04-30 00:00:00\",  \"cardType\":\"MasterCard\",  \"cardToken\":\"9999000000001853\",  \"swiped\":\"true\",  \"source\":\"3rd Party API\"}"
-puts transaction.findTransactions(parameters)
+
+result = transaction.findTransactions(tsp)
+puts result.at(0).inspect
+

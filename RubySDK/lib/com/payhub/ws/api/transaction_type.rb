@@ -10,7 +10,7 @@ class TransactionType
   Schedule="forSchedule"
   Refund="forRefund"
   VoidTransaction="forVoid"
-  Verify="forVoid"
+  Verify="forVerify"
 
   def initialize
 

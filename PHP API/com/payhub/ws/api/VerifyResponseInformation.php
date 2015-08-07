@@ -92,17 +92,26 @@ class VerifyResponseInformation
     /**
      * @return mixed
      */
+    public function getMerchantInformation()
+    {
+        if($this->merchantInformation==null){
+            $m = new MerchantInformation($this->transactionManager);
+            $m->getDataByTransaction(TransactionType::Verify, $this->verifyResponse->getVerifyId());
+            $this->merchantInformation=$m;
+        }
+        return $this->merchantInformation;
+    }
+    /**
+     * @return mixed
+     */
     public function getCardDataInformation()
     {
+        if($this->cardDataInformation==null){
+            $c = new CardDataInformation($this->transactionManager);
+            $c->getDataByTransaction(TransactionType::Verify, $this->verifyResponse->getVerifyId());
+            $this->cardDataInformation=$c;
+        }
         return $this->cardDataInformation;
-    }
-
-    /**
-     * @param mixed $cardDataInformation
-     */
-    public function setCardDataInformation($cardDataInformation)
-    {
-        $this->cardDataInformation = $cardDataInformation;
     }
 
     /**
@@ -110,32 +119,15 @@ class VerifyResponseInformation
      */
     public function getCustomerInformation()
     {
+        if($this->customerInformation==null){
+            $c = new CustomerInformation($this->transactionManager);
+            $c->setUrl($this->transactionManager->getUrl()."verify/");
+            $c->getDataByTransaction(TransactionType::Verify, $this->verifyResponse->getVerifyId());
+            $this->customerInformation=$c;
+        }
         return $this->customerInformation;
     }
 
-    /**
-     * @param mixed $customerInformation
-     */
-    public function setCustomerInformation($customerInformation)
-    {
-        $this->customerInformation = $customerInformation;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMerchantInformation()
-    {
-        return $this->merchantInformation;
-    }
-
-    /**
-     * @param mixed $merchantInformation
-     */
-    public function setMerchantInformation($merchantInformation)
-    {
-        $this->merchantInformation = $merchantInformation;
-    }
     public static function fromArray($data){
         $verif = new VerifyResponseInformation();
 

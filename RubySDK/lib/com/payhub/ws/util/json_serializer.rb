@@ -11,6 +11,7 @@ module JsonSerializer
       str = "TransactionAmount" if str == "Base_amount" or  str == "Tax_amount" or  str == "Shipping_amount" or  str == "TotalAmount"
       str = "ScheduleStartAndEnd" if str == "Schedule_start_and_end"
       str = "MonthlySchedule" if str == "Monthly_schedule"
+      next if str=="TransactionType"
       h[x] = Kernel.const_defined?(str) ? val.serialize_to_json : val
     end
       jsonObject = JSON.generate(h)
@@ -32,16 +33,20 @@ module JsonSerializer
             k = "voidResponse" if k == "lastVoidResponse"
             k = "recurringBillResponse" if k == "lastRecurringBillResponse"
             k = "captureResponse" if k=="lastCaptureResponse"
+            k= "refundResponse" if k=="lastRefundResponse"
             str = k[0].upcase + k[1..-1]
             defined = Kernel.const_defined?(str) rescue false
             if defined
               k = "lastVoidResponse" if k == "voidResponse"
               k = "lastRecurringBillResponse" if k == "recurringBillResponse"
               k = "lastCaptureResponse" if k=="captureResponse"
+              k= "lastRefundResponse" if k=="refundResponse"
               if k=="transactionType"
                 obj.instance_variable_set "@#{k}",v
               else
                 if k=="status" and obj.is_a?(Errors)
+                  obj.instance_variable_set "@#{k}",v
+                elsif k=="dateTime" and not obj.is_a?(DateTime)
                   obj.instance_variable_set "@#{k}",v
                 else
                     obj.instance_variable_set "@#{k}", Kernel.const_get(str).from_json(JSON.generate(v))

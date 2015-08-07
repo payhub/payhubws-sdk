@@ -24,7 +24,6 @@ customer.phone_number="844-217-1631"
 customer.phone_type="W"
 
 montly_s=MonthlySchedule.new("E",15)
-puts montly_s.inspect
 start=Date.new(2015,8,29)
 type="O"
 endDate=Date.new(2016,8,29)
@@ -35,6 +34,5 @@ schedule.bill_generation_interval=1
 object = RecurringBill.new(merchant, customer, bill, card_data, schedule)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #response = transaction.doSale(object)
-#puts transaction.getSaleInformation("182786")
-response = transaction.doRecurringBill(object)
-puts response.inspect
+response = transaction.getRecurringBillInformation("1196")
+puts response.billInformation.inspect

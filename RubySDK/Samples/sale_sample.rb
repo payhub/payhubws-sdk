@@ -40,7 +40,7 @@ customer.phone_type="M"
 object = Sale.new(merchant,customer,bill,card_data)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #response = transaction.doSale(object)
-#puts transaction.getSaleInformation("182786")
-response = transaction.getSaleInformation("182347")
-puts response.inspect
-puts response.billInformation.inspect
+response = transaction.getSaleInformation("182786")
+
+#puts response.at(0).inspect
+puts response.merchantInformation.inspect
