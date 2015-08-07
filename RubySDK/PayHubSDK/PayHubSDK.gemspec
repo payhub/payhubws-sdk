@@ -1,5 +1,6 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
+
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'PayHubSDK/version'
 
@@ -21,7 +22,10 @@ Gem::Specification.new do |spec|
     raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files = Dir['lib/PayHubSDK/com/payhub/ws/util/*'] + Dir['bin/*']+Dir['lib/PayHubSDK/com/payhub/ws/model/*']+Dir['lib/PayHubSDK/com/payhub/ws/api/*']+Dir['lib/PayHubSDK/com/payhub/ws/extra/*']
+
+  spec.files.reject! { |fn| fn.include? "CVS" }
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

@@ -1,4 +1,4 @@
-require '../com/payhub/ws/extra/include_classes'
+require 'PayHubSDK/com/payhub/ws/extra/include_classes'
 
 wsURL="https://staging-api.payhub.com/api/v2/"
 oauth_token = "107d74ab-4a18-4713-88ff-69bd05710086"

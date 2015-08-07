@@ -1,3 +1,3 @@
-Dir["../lib/PayHubSDK/com/payhub/ws/util/*.rb"].each {|file| require file }
-Dir["../lib/PayHubSDK/com/payhub/ws/model/*.rb"].each {|file| require file }
-Dir["../lib/PayHubSDK/com/payhub/ws/api/*.rb"].each {|file| require file }
+Gem.find_files("PayHubSDK/com/payhub/ws/util/**/*.rb").each { |path| require path}
+Gem.find_files("PayHubSDK/com/payhub/ws/model/**/*.rb").each { |path| require path}
+Gem.find_files("PayHubSDK/com/payhub/ws/api/**/*.rb").each { |path| require path}

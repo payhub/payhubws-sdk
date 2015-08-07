@@ -1,4 +1,4 @@
-class MerchantInformation< AbstractInfo
+class MerchantInformation < AbstractInfo
   include JsonSerializer
   attr_accessor :merchant
   # @param [Object] transactionManager

@@ -22,7 +22,7 @@ class AbstractInfo
     #request = @transactionManager.setHeadersGet(url, @transactionManager.token)
     json=@transactionManager.doGet(url, @transactionManager.token)
     return nil if json==nil or json==""
-    result=JSON.parse(response)
+    result=JSON.parse(json)
     errors ||= Array.new
     if result.include?('errors')
       result['errors'].each do |error|
