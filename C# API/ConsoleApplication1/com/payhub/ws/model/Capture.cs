@@ -71,9 +71,9 @@ namespace PayHubWS.com.payhub.ws.model
             this.TransactionId = transactionId;
             this.bill = bill;
         }
-        public LastCaptureResponseInfromation captureData(string json, HttpWebRequest request)
+        public CaptureResponseInfromation captureData(string json, HttpWebRequest request)
         {
-            LastCaptureResponseInfromation responseObject = new LastCaptureResponseInfromation();
+            CaptureResponseInfromation responseObject = new CaptureResponseInfromation();
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 streamWriter.Write(json);
@@ -81,7 +81,7 @@ namespace PayHubWS.com.payhub.ws.model
                 streamWriter.Close();
             }
             var result = doPost(request, _url);
-            responseObject = JsonConvert.DeserializeObject<LastCaptureResponseInfromation>(result);
+            responseObject = JsonConvert.DeserializeObject<CaptureResponseInfromation>(result);
             responseObject.rowData = result;
             return responseObject;       
         }

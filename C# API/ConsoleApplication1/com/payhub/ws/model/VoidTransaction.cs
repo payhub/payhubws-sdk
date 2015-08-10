@@ -59,9 +59,9 @@ namespace PayHubWS.com.payhub.ws.model
             }
         }
 
-        public LastVoidResponseInformation performVoidTransaction(string json, HttpWebRequest request)
+        public VoidResponseInformation performVoidTransaction(string json, HttpWebRequest request)
         {
-            LastVoidResponseInformation responseObject = new LastVoidResponseInformation();
+            VoidResponseInformation responseObject = new VoidResponseInformation();
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 streamWriter.Write(json);
@@ -69,7 +69,7 @@ namespace PayHubWS.com.payhub.ws.model
                 streamWriter.Close();
             }
             var result = doPost(request, _url);
-            responseObject = JsonConvert.DeserializeObject<LastVoidResponseInformation>(result);
+            responseObject = JsonConvert.DeserializeObject<VoidResponseInformation>(result);
             responseObject.rowData = result;
             return responseObject;
         }

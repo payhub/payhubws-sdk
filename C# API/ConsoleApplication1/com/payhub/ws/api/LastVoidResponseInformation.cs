@@ -47,7 +47,7 @@ namespace PayHubWS.com.payhub.ws.api
             public List<Errors> errors;
             public string rowData { get; set; }
             private TransactionManager _transactionManager;
-            public TransactionManager transactionManager { set { this.transactionManager = value; } }
+            public TransactionManager transactionManager { set { this._transactionManager = value; } }
             private MerchantInformation _merchantInformation;
             public MerchantInformation merchantInformation
             {

@@ -56,10 +56,19 @@ namespace PayHubWS.Samples
             TransactionManager transaction = new TransactionManager(url, oauth, merchant);
             AuthorizationResponseInformation response = transaction.doAuthonly(authorization);
             Console.Write(response.rowData);
-            var transactionId = response.AuthOnlyResponse.TransactionId;
-            Capture capture = new Capture(merchant,transactionId,bill);
-            LastCaptureResponseInfromation responseCapture= transaction.doCapture(capture);            
-            Console.Write(responseCapture.rowData);
+            if (response.errors != null)
+            {
+                var transactionId = response.AuthOnlyResponse.TransactionId;
+                Capture capture = new Capture(merchant, transactionId, bill);
+                CaptureResponseInfromation responseCapture = transaction.doCapture(capture);
+                Console.Write(responseCapture.rowData);
+            }
+            else
+            {
+                Console.Write(response.errors);
+            }
+
+
         }
     }
 }

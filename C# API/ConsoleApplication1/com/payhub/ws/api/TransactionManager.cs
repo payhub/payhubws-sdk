@@ -208,15 +208,15 @@ namespace PayHubWS.payhub.ws.api
         /// <returns>
         /// LastCaptureResponseInfromation object.
         /// </returns>   
-        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastCaptureResponseInfromation"/>
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.CaptureResponseInfromation"/>
         /// </summary> 
-        public LastCaptureResponseInfromation doCapture(Capture capture)
+        public CaptureResponseInfromation doCapture(Capture capture)
         {
             capture.Merchant = _merchant;
             capture._url = _url;
             var request = setHeadersPost(capture._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(capture, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            LastCaptureResponseInfromation response = capture.captureData(json, request);
+            CaptureResponseInfromation response = capture.captureData(json, request);
             response.transactionManager = this;
             return response;
         }
@@ -229,19 +229,19 @@ namespace PayHubWS.payhub.ws.api
         /// <returns>
         /// LastCaptureResponseInfromation object.
         /// </returns>   
-        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastCaptureResponseInfromation"/>
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.CaptureResponseInfromation"/>
         /// </summary> 
-        public LastCaptureResponseInfromation getCaptureInformation(string captureId)
+        public CaptureResponseInfromation getCaptureInformation(string captureId)
         {
             if (captureId == null || captureId .Equals(""))
                 return null;
-            LastCaptureResponseInfromation response = new LastCaptureResponseInfromation();
+            CaptureResponseInfromation response = new CaptureResponseInfromation();
             var url = _url + Capture.CAPTURE_ID_LINK + captureId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
             if (result == null || result.Equals(""))
                 return null;
-            response = JsonConvert.DeserializeObject<LastCaptureResponseInfromation>(result);
+            response = JsonConvert.DeserializeObject<CaptureResponseInfromation>(result);
             response.rowData = result;
             response.transactionManager = this;
             return response;
@@ -252,15 +252,15 @@ namespace PayHubWS.payhub.ws.api
         /// a LastCaptureResponseInfromation list object.
         /// </returns> 
         ///</summary>
-        public List<LastCaptureResponseInfromation> getAllCaptureInformation()
+        public List<CaptureResponseInfromation> getAllCaptureInformation()
         {
 
             String url = _url + Capture.CAPTURE_ID_LINK;
             HttpWebRequest request = setHeadersGet(url, this._oauthToken);
             String result = doGet(request);
             var node = JObject.Parse(result);
-            List<LastCaptureResponseInfromation> response = JsonConvert.DeserializeObject<List<LastCaptureResponseInfromation>>(node["_embedded"]["authonlys"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            foreach (LastCaptureResponseInfromation lastCaptureResponseInfromation in response)
+            List<CaptureResponseInfromation> response = JsonConvert.DeserializeObject<List<CaptureResponseInfromation>>(node["_embedded"]["authonlys"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            foreach (CaptureResponseInfromation lastCaptureResponseInfromation in response)
             {
                 lastCaptureResponseInfromation.transactionManager = this;
             }
@@ -275,15 +275,15 @@ namespace PayHubWS.payhub.ws.api
         /// <returns>
         /// LastVoidResponseInformation object.
         /// </returns>   
-        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastVoidResponseInformation"/>
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.VoidResponseInformation"/>
         /// </summary> 
-        public LastVoidResponseInformation doVoid(VoidTransaction voidData)
+        public VoidResponseInformation doVoid(VoidTransaction voidData)
         {
             voidData.Merchant = _merchant;
             voidData._url = _url;
             var request = setHeadersPost(voidData._url, this._oauthToken);
             string json = JsonConvert.SerializeObject(voidData, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            LastVoidResponseInformation response = voidData.performVoidTransaction(json, request);
+            VoidResponseInformation response = voidData.performVoidTransaction(json, request);
             response.transactionManager = this;
             return response;
         }
@@ -296,19 +296,19 @@ namespace PayHubWS.payhub.ws.api
         /// <returns>
         /// LastVoidResponseInformation object.
         /// </returns>   
-        /// <seealso cref="PayHubWS.com.payhub.ws.api.LastVoidResponseInformation"/>
+        /// <seealso cref="PayHubWS.com.payhub.ws.api.VoidResponseInformation"/>
         /// </summary> 
-        public LastVoidResponseInformation getVoidInformation(string voidId)
+        public VoidResponseInformation getVoidInformation(string voidId)
         {
             if (voidId == null || voidId.Equals(""))
                 return null;
-            LastVoidResponseInformation response = new LastVoidResponseInformation();
+            VoidResponseInformation response = new VoidResponseInformation();
             var url = _url + VoidTransaction.VOID_ID_LINK + voidId;
             var request = setHeadersGet(url, this._oauthToken);
             string result = doGet(request);
             if (result == null || result.Equals(""))
                 return null;
-            response = JsonConvert.DeserializeObject<LastVoidResponseInformation>(result);
+            response = JsonConvert.DeserializeObject<VoidResponseInformation>(result);
             response.rowData = result;
             response.transactionManager = this;
             return response;
@@ -319,15 +319,15 @@ namespace PayHubWS.payhub.ws.api
         /// a LastVoidResponseInformation list object.
         /// </returns> 
         ///</summary>
-        public List<LastVoidResponseInformation> getAllVoidResponseInformation()
+        public List<VoidResponseInformation> getAllVoidResponseInformation()
         {
 
             String url = _url + VoidTransaction.VOID_ID_LINK;
             HttpWebRequest request = setHeadersGet(url, this._oauthToken);
             String result = doGet(request);
             var node = JObject.Parse(result);
-            List<LastVoidResponseInformation> response = JsonConvert.DeserializeObject<List<LastVoidResponseInformation>>(node["_embedded"]["voids"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            foreach (LastVoidResponseInformation lastVoidResponseInformation in response)
+            List<VoidResponseInformation> response = JsonConvert.DeserializeObject<List<VoidResponseInformation>>(node["_embedded"]["voids"].ToString(), new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            foreach (VoidResponseInformation lastVoidResponseInformation in response)
             {
                 lastVoidResponseInformation.transactionManager = this;
             }

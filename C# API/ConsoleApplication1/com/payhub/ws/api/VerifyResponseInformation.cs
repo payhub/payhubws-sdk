@@ -42,7 +42,7 @@ namespace PayHubWS.com.payhub.ws.api
         public string rowData { get; set; }
         private TransactionManager _transactionManager;
         public TransactionManager transactionManager
-        { set { this.transactionManager = value; } }        
+        { set { this._transactionManager = value; } }        
         private CardDataInformation _cardDataInformation;
         public CardDataInformation cardDataInformation
         {

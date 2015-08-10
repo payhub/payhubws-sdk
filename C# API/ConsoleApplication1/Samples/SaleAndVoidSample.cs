@@ -58,10 +58,16 @@ namespace PayHubWS.Samples
             TransactionManager transaction = new TransactionManager(url, oauth, merchant);
             SaleResponseInformation response = transaction.doSale(sale);
             Console.Write(response.rowData);
-            var saleId = response.SaleResponse.SaleId;
-            VoidTransaction voidTransaction = new VoidTransaction(merchant, saleId);
-            LastVoidResponseInformation voidInfo = transaction.doVoid(voidTransaction);            
-            Console.Write(voidInfo.rowData);
+            if (response.errors != null)
+            {
+                var saleId = response.SaleResponse.SaleId;
+                VoidTransaction voidTransaction = new VoidTransaction(merchant, saleId);
+                VoidResponseInformation voidInfo = transaction.doVoid(voidTransaction);
+                Console.Write(voidInfo.rowData);
+            }
+            else {
+                Console.Write(response.errors);
+            }
         }
 
         public void getInformation()

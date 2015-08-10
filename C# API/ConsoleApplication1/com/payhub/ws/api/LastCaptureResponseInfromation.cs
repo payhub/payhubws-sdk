@@ -32,7 +32,7 @@ namespace PayHubWS.com.payhub.ws.api
          public List<Errors> errors { get; set; }
         public string rowData { get; set; }
         private TransactionManager _transactionManager;
-        public TransactionManager transactionManager{ set { this.transactionManager = value; } }
+        public TransactionManager transactionManager { set { this._transactionManager = value; } }
         private BillInformation _billInformation;
         public BillInformation billInformation
         {
