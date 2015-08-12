@@ -1,0 +1,20 @@
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\obj\Debug\PayHubSDK.csprojResolveAssemblyReference.cache
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\bin\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\bin\Debug\PayHubSDK.pdb
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\bin\Debug\Newtonsoft.Json.dll
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\bin\Debug\Newtonsoft.Json.xml
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\obj\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubwsRepository\C# SDK\PayHubSDK\PayHubSDK\obj\Debug\PayHubSDK.pdb
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\bin\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\bin\Debug\PayHubSDK.pdb
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\bin\Debug\Newtonsoft.Json.dll
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\bin\Debug\Newtonsoft.Json.xml
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\obj\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubws-sdk\C# SDK final\PayHubSDK\PayHubSDK\obj\Debug\PayHubSDK.pdb
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\bin\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\bin\Debug\PayHubSDK.pdb
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\bin\Debug\Newtonsoft.Json.dll
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\bin\Debug\Newtonsoft.Json.xml
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\obj\Debug\PayHubSDK.csprojResolveAssemblyReference.cache
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\obj\Debug\PayHubSDK.dll
+C:\Users\agustin\Documents\payhubwsRepository\c#_SDK\PayHubSDK\obj\Debug\PayHubSDK.pdb

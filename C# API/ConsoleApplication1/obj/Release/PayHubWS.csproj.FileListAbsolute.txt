@@ -1,8 +1,0 @@
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Release\PayHubWS.exe.config
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Release\PayHubWS.exe
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Release\PayHubWS.pdb
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Release\Newtonsoft.Json.dll
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\bin\Release\Newtonsoft.Json.xml
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Release\PayHubWS.csprojResolveAssemblyReference.cache
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Release\PayHubWS.exe
-C:\Users\agustin\Documents\payhubwsRepository\C# API\ConsoleApplication1\obj\Release\PayHubWS.pdb
