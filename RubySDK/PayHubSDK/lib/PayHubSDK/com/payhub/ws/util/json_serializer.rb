@@ -12,7 +12,15 @@ module JsonSerializer
       str = "ScheduleStartAndEnd" if str == "Schedule_start_and_end"
       str = "MonthlySchedule" if str == "Monthly_schedule"
       next if str=="TransactionType"
-      h[x] = Kernel.const_defined?(str) ? val.serialize_to_json : val
+      if str=="TransactionAmount"
+        if val.is_a?(TransactionAmount)
+          h[x] = Kernel.const_defined?(str) ? val.serialize_to_json : val
+        else
+          h[x] = JSON.generate(val)
+        end
+      else
+        h[x] = Kernel.const_defined?(str) ? val.serialize_to_json : val
+      end
     end
       jsonObject = JSON.generate(h)
       string = jsonObject.gsub('\\','').gsub('"{','{').gsub('}"','}')

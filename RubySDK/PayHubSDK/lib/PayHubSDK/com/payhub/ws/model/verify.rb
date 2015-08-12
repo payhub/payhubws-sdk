@@ -21,6 +21,7 @@ class Verify < WsConnections
 
   def performVerifyTransaction(http,request)
     json = self.serialize_to_json
+    puts json
     request.body = json
     response = JSON.parse(doPost(http,request))
     result=VerfyResponseInformation.new

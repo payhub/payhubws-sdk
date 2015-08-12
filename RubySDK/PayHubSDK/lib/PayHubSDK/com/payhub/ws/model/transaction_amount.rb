@@ -1,9 +1,9 @@
 require 'bigdecimal'
 class TransactionAmount
   include JsonSerializer
-  ATTRS=[:amount]
+  ATTRS=[:amount,:currency]
   attr_accessor *ATTRS
-  attr_reader :currency
+  #attr_reader :currency
   @CURRENCY_CODE="en-US"
 
   def initialize(amount)

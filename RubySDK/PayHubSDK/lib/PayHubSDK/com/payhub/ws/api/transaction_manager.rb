@@ -672,7 +672,7 @@ class TransactionManager < WsConnections
     http,request = setHeadersPost(url,@token)
     transactionReports=findTransactionReports(http,request,parameters)
     return nil if transactionReports==nil or transactionReports==""
-    JSON.parse(transactionReports)
+    transactionReports=JSON.parse(transactionReports)
 
     response ||= Array.new
     if not transactionReports.include?('errors')
@@ -685,6 +685,10 @@ class TransactionManager < WsConnections
         response_tmp = Errors.from_json(JSON.generate(error))
         response.push(response_tmp)
       end
+    end
+    if transactionReports.include?('error')
+      response_tmp = Errors.from_json(JSON.generate(transactionReports))
+      response.push(response_tmp)
     end
     return response
   end

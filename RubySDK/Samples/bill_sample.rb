@@ -9,4 +9,4 @@ transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 
 bill = BillInformation.new(transaction)
 bill.getBillForRecurringBillInformationById("1196")
-#puts bill.inspect
+puts bill.inspect

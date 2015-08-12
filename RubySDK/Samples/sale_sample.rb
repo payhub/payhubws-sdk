@@ -42,5 +42,7 @@ transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 #response = transaction.doSale(object)
 response = transaction.getSaleInformation("182786")
 
-#puts response.at(0).inspect
-puts response.merchantInformation.inspect
+if response.errors==nil
+  puts response.merchantInformation.inspect
+end
+

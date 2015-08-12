@@ -10,7 +10,6 @@ merchant.terminal_id=215
 tsp = TransactionSearchParameters.new
 tsp.amountFrom = "1";
 tsp.amountTo = "1002";
-=begin
 tsp.cardLast4Digits = "4507";
 tsp.batchIdFrom = "1300";
 tsp.batchIdTo = "1320";
@@ -26,7 +25,6 @@ tsp.cardType = "MasterCard";
 tsp.cardToken = "9999000000001853";
 tsp.swiped = "true";
 tsp.source = "3rd Party API";
-=end
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 
 result = transaction.findTransactions(tsp)

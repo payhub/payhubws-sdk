@@ -31,8 +31,10 @@ scheduleSandE=ScheduleStartAndEnd.new(start,type,endDate)
 schedule = Schedule.new(scheduleSandE,montly_s)
 schedule.schedule_type="M"
 schedule.bill_generation_interval=1
-object = RecurringBill.new(merchant, customer, bill, card_data, schedule)
+
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-#response = transaction.doSale(object)
+
 response = transaction.getRecurringBillInformation("1196")
-puts response.billInformation.inspect
+if response.errors==nil
+  puts response.billInformation.inspect
+end
