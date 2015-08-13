@@ -33,8 +33,8 @@ schedule.schedule_type="M"
 schedule.bill_generation_interval=1
 
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-
-response = transaction.getRecurringBillInformation("1196")
+recurringBill = RecurringBill.new(merchant,customer,bill,card_data,schedule)
+response = transaction.doRecurringBill(recurringBill)
 if response.errors==nil
-  puts response.billInformation.inspect
+  puts response.inspect
 end

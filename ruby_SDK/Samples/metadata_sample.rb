@@ -39,10 +39,18 @@ customer.phone_type="M"
 object = Sale.new(merchant,customer,bill,card_data)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 response = transaction.doSale(object)
-puts response.inspect
-transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}"
-result=transaction.addMetaData(datos, TransactionType::Sale, response.saleResponse.saleId)
-response2 = transaction.getSaleInformation(response.saleResponse.saleId)
-puts response2.inspect
+if response.errors==nil
+  transaction = TransactionManager.new(wsURL,oauth_token,merchant)
+  datos = "{\"order\": {\"id\": 465, \"invoice\":\"MyIncoice\", \"lines\": [{\"City\": \"Cordoba\"}, {\"Neighborhood\": \"Nueva Cordoba\"}]}}"
+  result=transaction.addMetaData(datos, TransactionType::Sale, response.saleResponse.saleId)
+  if result==true
+    saleResponseMetadata = transaction.getSaleInformation(response.saleResponse.saleId)
+    if saleResponseMetadata.errors==nil
+      metadata = saleResponseMetadata.metaData
+      puts metadata.inspect
+    end
+  end
+else
+  response.errors.inspect
+end
 

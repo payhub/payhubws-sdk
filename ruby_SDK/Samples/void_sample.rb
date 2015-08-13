@@ -42,6 +42,10 @@ customer.phone_type="M"
 object = Sale.new(merchant,customer,bill,card_data)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
 response = transaction.doSale(object)
-voidObj=VoidTransaction.new(merchant,response.saleResponse.saleId)
-voidresponse = transaction.doVoid(voidObj)
-puts voidresponse.inspect
+if response.errors==nil
+	voidObj=VoidTransaction.new(merchant,response.saleResponse.saleId)
+	voidresponse = transaction.doVoid(voidObj)
+	puts voidresponse.inspect	
+else
+	puts response.errors.inspect
+end

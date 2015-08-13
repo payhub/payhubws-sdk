@@ -39,10 +39,10 @@ customer.phone_type="M"
 
 object = Sale.new(merchant,customer,bill,card_data)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-#response = transaction.doSale(object)
-response = transaction.getSaleInformation("182786")
-
+response = transaction.doSale(object)
 if response.errors==nil
-  puts response.merchantInformation.inspect
+	puts response.inspect
+else
+	puts response.errors.inspect
 end
 

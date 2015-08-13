@@ -29,23 +29,12 @@ customer.phone_number="(415) 479 1349"
 customer.phone_ext="123"
 customer.phone_type="M"
 
+verify = Verify.new(merchant,customer,card_data)
 transaction = TransactionManager.new(wsURL,oauth_token,merchant)
-# bill data
-bill= Bill.new
-bill.base_amount=1.00
-bill.shipping_amount=1.00
-bill.tax_amount=1.00
-bill.note="this a sample note"
-bill.invoice_number="this is an invoice"
-bill.po_number="a test po number"
-
-object = Sale.new(merchant,customer,bill,card_data)
-object.serialize_to_json
-response = transaction.doSale(object)
-response.transactionManager=transaction
-#puts response.merchantInformation.merchant.inspect,response.customerInformation.customer.inspect,response.cardDataInformation.cardData.inspect
-if response.errors==nil
-  verifyResponse=transaction.doVerify(Verify.new(response.merchantInformation.merchant,response.customerInformation.customer,response.cardDataInformation.cardData))
-  puts verifyResponse.inspect
+verifyResponse=transaction.doVerify(verify)
+if verifyResponse.errors==nil
+  verifyResponse.inspect
+else
+  verifyResponse.errors.inspect
 end
 
