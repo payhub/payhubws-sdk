@@ -5,7 +5,9 @@
  * Date: 27/07/2015
  * Time: 12:34
  */
-include_once '../com/payhub/ws/extra/includeClasses.php';
+
+$path_to_IncludeClases="../com/payhub/ws/extra/includeClasses.php";
+include_once $path_to_IncludeClases;
 
 //Defining the Web Service URL
 $WsURL="https://staging-api.payhub.com/api/v2/";
@@ -51,14 +53,11 @@ $authorization = new AuthOnly($merchant,$bill,$card_data,$customer);
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
 $result = $transaction->doAuthonly($authorization);
 
-echo "resultado";
-var_dump($result);
-echo "resultado";
-//$transactionId = $result->getAuthOnlyResponse()->getTransactionId();
-
-//$capture = new Capture($merchant,$transactionId,$bill);
-//$responseCapture= $transaction->getCaptureInformation("182357");
-//$bill=$responseCapture->getBillInformation();
-//$merchant=$responseCapture->getMerchantInformation();
-//var_dump($bill);
-//var_dump($merchant);
+if($result->getErrors()==null){
+  $transactionId = $result->getAuthOnlyResponse()->getTransactionId();
+  $capture = new Capture($merchant,$transactionId,$bill);
+  $responseCapture= $transaction->doCapture($capture);
+  var_dump($responseCapture);
+}else{
+  var_dump($result->getErrors());
+}

@@ -5,7 +5,8 @@
  * Date: 28/07/2015
  * Time: 12:56
  */
-include_once '../com/payhub/ws/extra/includeClasses.php';
+$path_to_IncludeClases="../com/payhub/ws/extra/includeClasses.php";
+include_once $path_to_IncludeClases;
 //Defining the Web Service URL
 $WsURL="https://staging-api.payhub.com/api/v2/";
 $oauth_token = "107d74ab-4a18-4713-88ff-69bd05710086";
@@ -18,7 +19,13 @@ $merchant->setTerminalId(215);
 
 $void = new VoidTransaction($merchant,'{someSaleId}');
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
-$result=$transaction->getVoidInformation("182378");
-var_dump($result);
-$result2=$transaction->getAllVoidInformation();
-var_dump($result2);
+
+
+if($result->getErrors()==null){
+  $transactionId = $result->getVerifyResponse()->getVoidId();
+  $result2 = $transaction->getVoidInformation($transactionId);
+  var_dump($result2);
+}else{
+  var_dump($result->getErrors());
+}
+

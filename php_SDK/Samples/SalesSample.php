@@ -5,7 +5,8 @@
  * Time: 10:50
  */
 
-include_once '../com/payhub/ws/extra/includeClasses.php';
+$path_to_IncludeClases="../com/payhub/ws/extra/includeClasses.php";
+include_once $path_to_IncludeClases;
 //Defining the Web Service URL
 $WsURL="https://staging-api.payhub.com/api/v2/";
 $oauth_token = "107d74ab-4a18-4713-88ff-69bd05710086";
@@ -50,9 +51,13 @@ $customer->setPhoneType("M");
 $object = new Sale($merchant,$customer,$bill,$card_data);
 
 $transaction = new TransactionManager($merchant,$WsURL,$oauth_token);
-//$result = $transaction->doSale($object);
-//var_dump($result);
-//$transactionId = $result->getSaleResponse()->getSaleId();
-$result2 = $transaction->getSaleInformation("182347");
-$bill=$result2->getCustomerInformation();
-var_dump($bill);
+$result = $transaction->doSale($object);
+if($result->getErrors()==null){
+  $transactionId = $result->getSaleResponse()->getSaleId();
+  $saleIfo = $transaction->getSaleInformation($transactionId);
+  var_dump($saleIfo);
+  $bill=$saleIfo->getCustomerInformation();
+  var_dump($bill);  
+}else{
+  var_dump($result->getErrors());
+}
